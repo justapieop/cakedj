@@ -1,5 +1,11 @@
 package me.justapie.cakedj;
 
+import me.justapie.cakedj.database.models.GuildModel;
+import net.dv8tion.jda.api.entities.Guild;
+import org.bson.Document;
+
+import java.util.List;
+
 public class Constants {
     public static final String noPerms = "You don't have permission to do this";
     public static final String noBotPerms = "I don't have enough permissions to do this";
@@ -22,9 +28,55 @@ public class Constants {
     public static final String dblTokenKey = "DBLToken";
     public static final String musicWithCakeDJ = "Music with CakeDJ";
 
+    public static final String guildIDKey = "guildID";
+    public static final String guildNameKey = "guildName";
+    public static final String is247Key = "is247";
+    public static final String channelRestrictKey = "channelRestrict";
+    public static final String djOnlyChannelsKey = "djOnlyChannels";
+
+
     public static final String queueTitle = "Queue";
     public static final String comingUp = "Coming up next";
 
     public static final String noMatches = "No tracks found";
     public static final String trackError = "Error while loading track. Please try again";
+
+    public static Document getDefaultGuildSetting(Guild guild) {
+        return new Document()
+                .append(guildNameKey, guild.getName())
+                .append(guildIDKey, guild.getId())
+                .append(is247Key, false)
+                .append(channelRestrictKey, false)
+                .append(djOnlyChannelsKey, List.of());
+    }
+
+    public static GuildModel parseGuildSetting(Document document) {
+        return new GuildModel() {
+
+            @Override
+            public String guildName() {
+                return document.getString(guildNameKey);
+            }
+
+            @Override
+            public String guildID() {
+                return document.getString(guildIDKey);
+            }
+
+            @Override
+            public boolean is247() {
+                return document.getBoolean(is247Key);
+            }
+
+            @Override
+            public boolean channelRestrict() {
+                return document.getBoolean(channelRestrictKey);
+            }
+
+            @Override
+            public List<String> djOnlyChannels() {
+                return document.getList(djOnlyChannelsKey, String.class);
+            }
+        };
+    }
 }

@@ -8,6 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.database.collections.ConfigCollection;
+import me.justapie.cakedj.database.collections.GuildCollection;
 
 public class DBConnector {
     private final MongoClient client;
@@ -26,5 +27,6 @@ public class DBConnector {
     public void initCollection() {
         MongoDatabase db = this.client.getDatabase(Constants.databaseName);
         ConfigCollection.init(db);
+        GuildCollection.init(db);
     }
 }
