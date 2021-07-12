@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -46,8 +47,7 @@ public class PlayerManager {
                 track.setUserData(requester.getAsTag());
                 musicManager.scheduler.enqueue(track);
                 String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" +
-                        '.' + ' ' +
-                        "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
+                        " Requested by" + ' ' + "**" + requester.getAsTag() + "**";
                 EmbedUtils.sendEmbed(event, Color.GREEN, desc);
             }
 
@@ -58,21 +58,31 @@ public class PlayerManager {
                     track.setUserData(requester.getAsTag());
                     musicManager.scheduler.enqueue(track);
                     String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" +
-                            '.' + ' ' +
-                            "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
+                            " Requested by" + ' ' + "**" + requester.getAsTag() + "**";
                     EmbedUtils.sendEmbed(event, Color.GREEN, desc);
                     return;
                 }
+
+                for (AudioTrack track : playlist.getTracks()) {
+                    track.setUserData(requester.getAsTag());
+                    musicManager.scheduler.enqueue(track);
+                }
+
+                int size = playlist.getTracks().size();
+
+                String desc = "Enqueued **" + size + "** " + (size > 1 ? "tracks" : "track") + " from playlist **" + playlist.getName() + "**";
+
+                EmbedUtils.sendEmbed(event, Color.GREEN, desc);
             }
 
             @Override
             public void noMatches() {
-
+                EmbedUtils.sendEmbed(event, Color.RED, Constants.noMatches);
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-
+                EmbedUtils.sendEmbed(event, Color.RED, Constants.trackError);
             }
         });
 

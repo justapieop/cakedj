@@ -44,9 +44,10 @@ public class PlayCommand implements ICommand {
                 return;
             }
         }
-        event.getGuild().requestToSpeak();
         String url = event.getOptions().get(0).getAsString();
-        if (!isURL(url)) url = "ytsearch:" + url;
+        if (!isURL(url))
+            url = "ytsearch:" + url;
+
         PlayerManager.getInstance().loadAndPlay(event, url, event.getUser());
     }
 

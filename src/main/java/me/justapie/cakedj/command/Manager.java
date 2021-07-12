@@ -2,6 +2,8 @@ package me.justapie.cakedj.command;
 
 import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.command.commands.music.PlayCommand;
+import me.justapie.cakedj.command.commands.music.NowPlayingCommand;
+import me.justapie.cakedj.command.commands.music.QueueCommand;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -16,6 +18,8 @@ public class Manager {
 
     public Manager() {
         this.addCommand(new PlayCommand());
+        this.addCommand(new QueueCommand());
+        this.addCommand(new NowPlayingCommand());
     }
 
     private void addCommand(ICommand command) {
