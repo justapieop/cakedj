@@ -12,7 +12,12 @@ public class Main {
     public static void main(String[] args) throws LoginException {
         new DBConnector().initCollection();
 
-        DefaultShardManagerBuilder.createDefault(null)
+        DefaultShardManagerBuilder
+                .create(
+                        GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_VOICE_STATES,
+                        GatewayIntent.DIRECT_MESSAGES
+                )
                 .setToken(ConfigCollection.getConfig().token())
                 .enableIntents(GatewayIntent.GUILD_VOICE_STATES)
                 .addEventListeners(new Listener())
