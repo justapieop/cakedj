@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+group 'me.justapie'
+version '1.0.0'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+sourceCompatibility = 11
+targetCompatibility = 11
+mainClassName = 'me.justapie.cakedj.Main'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    maven {
+        name 'duncte123-jfrog'
+        url 'https://duncte123.jfrog.io/artifactory/maven'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    implementation 'com.sedmelluq:lavaplayer:1.3.75'
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_296'
+    implementation group: 'me.duncte123', name: 'botCommons', version: '[2.1.3]'
+    implementation 'org.discordbots:DBL-Java-Library:2.0.1'
+    implementation 'io.github.cdimascio:dotenv-java:2.2.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'org.mongodb', name: 'mongodb-driver-legacy', version: '4.3.0-beta1'
+    implementation 'com.github.natanbc:lavadsp:0.7.7'
+    implementation 'com.sedmelluq:jda-nas:1.1.0'
+    implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation group: 'com.github.FredBoat', name: 'Lavalink-Client', version: '4.0'
+}
+
+task buildWithConfig() {
+    File conf = new File("src/main/resources/.env")
+    if (conf.createNewFile()) {
+        FileWriter writer = new FileWriter(conf)
+        writer.write("DATABASE=" + (System.getenv("DATABASE") != null ? System.getenv("DATABASE") : "\n"))
+        writer.flush()
+        writer.close()
+    }
+}
+
+buildWithConfig { dependsOn { ['build'] } }
