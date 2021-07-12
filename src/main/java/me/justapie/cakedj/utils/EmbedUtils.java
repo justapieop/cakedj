@@ -9,6 +9,6 @@ public class EmbedUtils {
     public static void sendEmbed(SlashCommandEvent event, Color color, String desc) {
         event.deferReply().addEmbeds(
                 new EmbedBuilder().setColor(color).setDescription(desc).build()
-        ).setEphemeral(true).queue();
+        ).queue();
     }
 }
