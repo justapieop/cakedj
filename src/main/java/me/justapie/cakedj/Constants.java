@@ -10,8 +10,6 @@ public class Constants {
     public static final String noCommandFound = "No command found";
     public static final String cannotDetectState = "Cannot detect your voice state";
 
-    public static final String requestingToSpeak = "Requesting to speak. If you don't see anything, invite me to speak";
-
     public static final String databaseName = "CakeDJ";
     public static final String databaseAddressKey = "DATABASE";
 
