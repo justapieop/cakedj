@@ -10,6 +10,8 @@ public class Constants {
     public static final String noCommandFound = "No command found";
     public static final String cannotDetectState = "Cannot detect your voice state";
 
+    public static final String cannotSelect = "Cannot select that page";
+
     public static final String databaseName = "CakeDJ";
     public static final String databaseAddressKey = "DATABASE";
 
@@ -19,4 +21,10 @@ public class Constants {
     public static final String ownerIDKey = "ownerID";
     public static final String dblTokenKey = "DBLToken";
     public static final String musicWithCakeDJ = "Music with CakeDJ";
+
+    public static final String queueTitle = "Queue";
+    public static final String comingUp = "Coming up next";
+
+    public static final String noMatches = "No tracks found";
+    public static final String trackError = "Error while loading track. Please try again";
 }
