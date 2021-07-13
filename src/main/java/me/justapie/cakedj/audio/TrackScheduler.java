@@ -26,7 +26,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public EmbedBuilder getNowPlaying() {
         AudioTrack playing = audioPlayer.getPlayingTrack();
-        String desc = "Now playing **" + playing.getInfo().title + "** Requested by **" + playing.getUserData(String.class) + "**";
+        String desc = "Now playing **" + playing.getInfo().title + "** \nRequested by **" + playing.getUserData(String.class) + "**";
         return new EmbedBuilder()
                 .setColor(Color.GREEN)
                 .setDescription(desc);
@@ -41,7 +41,14 @@ public class TrackScheduler extends AudioEventAdapter {
         this.isInLoop = false;
         AudioTrack track = this.queue.poll();
         if (track != null) this.previous.add(track);
+        audioPlayer.setPaused(false);
         audioPlayer.startTrack(track, false);
+    }
+
+    public void clear() {
+        this.queue.clear();
+        this.previous.clear();
+        endTrack();
     }
 
     @Override

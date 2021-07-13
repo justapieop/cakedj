@@ -41,6 +41,11 @@ public class Constants {
     public static final String noMatches = "No tracks found";
     public static final String trackError = "Error while loading track. Please try again";
     public static final String trackSkipped = "Skipped playing track";
+    public static final String trackPaused = "Track has been paused";
+    public static final String trackAlreadyPaused = "This track has already been paused";
+    public static final String trackResumed = "Track has been resumed";
+    public static final String trackAlreadyResumed = "This track has already been resumed";
+    public static final String queueCleared = "Queue cleared";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()

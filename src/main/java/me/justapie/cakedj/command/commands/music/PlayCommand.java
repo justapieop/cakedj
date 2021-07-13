@@ -4,6 +4,7 @@ import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.ICommand;
 import me.justapie.cakedj.utils.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.StageChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -14,6 +15,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class PlayCommand implements ICommand {
     @Override
@@ -55,6 +57,16 @@ public class PlayCommand implements ICommand {
     public CommandData getCommandData() {
         return new CommandData("play", "Play a specified track")
                 .addOption(OptionType.STRING, "url", "Track url", true);
+    }
+
+    @Override
+    public List<Permission> getUserPermissions() {
+        return List.of(Permission.VOICE_CONNECT);
+    }
+
+    @Override
+    public List<Permission> getBotPermission() {
+        return List.of(Permission.VOICE_CONNECT, Permission.VOICE_SPEAK);
     }
 
     private boolean isURL(String s) {

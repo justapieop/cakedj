@@ -46,8 +46,8 @@ public class PlayerManager {
             public void trackLoaded(AudioTrack track) {
                 track.setUserData(requester.getAsTag());
                 musicManager.scheduler.enqueue(track);
-                String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" +
-                        " Requested by" + ' ' + "**" + requester.getAsTag() + "**";
+                String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
+                        "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
                 EmbedUtils.sendEmbed(event, Color.GREEN, desc);
             }
 
@@ -57,8 +57,8 @@ public class PlayerManager {
                     AudioTrack track = playlist.getTracks().get(0);
                     track.setUserData(requester.getAsTag());
                     musicManager.scheduler.enqueue(track);
-                    String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" +
-                            " Requested by" + ' ' + "**" + requester.getAsTag() + "**";
+                    String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
+                            "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
                     EmbedUtils.sendEmbed(event, Color.GREEN, desc);
                     return;
                 }
@@ -70,7 +70,8 @@ public class PlayerManager {
 
                 int size = playlist.getTracks().size();
 
-                String desc = "Enqueued **" + size + "** " + (size > 1 ? "tracks" : "track") + " from playlist **" + playlist.getName() + "**";
+                String desc = "Enqueued **" + size + "** " + (size > 1 ? "tracks" : "track") + " from playlist **" + playlist.getName() + "**" + "\n"
+                        + "Requested by **" + requester.getAsTag() + "**";
 
                 EmbedUtils.sendEmbed(event, Color.GREEN, desc);
             }

@@ -1,10 +1,7 @@
 package me.justapie.cakedj.command;
 
 import me.justapie.cakedj.Constants;
-import me.justapie.cakedj.command.commands.music.NowPlayingCommand;
-import me.justapie.cakedj.command.commands.music.PlayCommand;
-import me.justapie.cakedj.command.commands.music.QueueCommand;
-import me.justapie.cakedj.command.commands.music.SkipCommand;
+import me.justapie.cakedj.command.commands.music.*;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -18,15 +15,22 @@ public class Manager {
     public final List<CommandData> commandData = new ArrayList<>();
 
     public Manager() {
-        this.addCommand(new PlayCommand());
-        this.addCommand(new QueueCommand());
-        this.addCommand(new NowPlayingCommand());
-        this.addCommand(new SkipCommand());
+        this.addCommand(
+                new PlayCommand(),
+                new QueueCommand(),
+                new NowPlayingCommand(),
+                new SkipCommand(),
+                new PauseCommand(),
+                new ResumeCommand(),
+                new ClearCommand()
+        );
     }
 
-    private void addCommand(ICommand command) {
-        this.commands.add(command);
-        this.commandData.add(command.getCommandData());
+    private void addCommand(ICommand... cmd) {
+        for (ICommand command : cmd) {
+            this.commands.add(command);
+            this.commandData.add(command.getCommandData());
+        }
     }
 
     private ICommand getCommand(String search) {
