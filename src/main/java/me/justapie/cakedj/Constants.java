@@ -40,6 +40,7 @@ public class Constants {
 
     public static final String noMatches = "No tracks found";
     public static final String trackError = "Error while loading track. Please try again";
+    public static final String trackSkipped = "Skipped playing track";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
