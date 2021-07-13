@@ -38,7 +38,10 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void endTrack() {
-        this.onTrackEnd(this.audioPlayer, this.audioPlayer.getPlayingTrack(), AudioTrackEndReason.FINISHED);
+        this.isInLoop = false;
+        AudioTrack track = this.queue.poll();
+        if (track != null) this.previous.add(track);
+        audioPlayer.startTrack(track, false);
     }
 
     @Override
