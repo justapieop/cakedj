@@ -68,7 +68,7 @@ public class Listener extends ListenerAdapter {
     public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event) {
         super.onGuildVoiceLeave(event);
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        assert guildSetting != null;
+        if (guildSetting == null) return;
         if (guildSetting.is247()) return;
         GuildMusicManager musicMan = PlayerManager.getInstance().getMusicManager(event.getGuild());
         if (event.getMember().equals(event.getGuild().getSelfMember())) {
