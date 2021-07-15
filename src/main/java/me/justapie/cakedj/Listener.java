@@ -29,6 +29,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onSlashCommand(@NotNull SlashCommandEvent event) {
         super.onSlashCommand(event);
+        if (event.getGuild() == null) return;
         man.process(event);
     }
 
