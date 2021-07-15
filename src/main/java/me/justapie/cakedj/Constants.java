@@ -21,6 +21,10 @@ public class Constants {
     public static final String databaseName = "CakeDJ";
     public static final String databaseAddressKey = "DATABASE";
 
+    public static final String guildCollection = "guilds";
+
+    public static final String ownerRequired = "You must be the owner of me to continue";
+
     public static final String configCollection = "config";
     public static final String noConfigDefined = "No config defined";
     public static final String tokenKey = "token";
