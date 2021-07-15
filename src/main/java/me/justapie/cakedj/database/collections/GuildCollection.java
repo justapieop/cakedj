@@ -21,14 +21,16 @@ public class GuildCollection {
     }
 
     public static GuildModel getGuildConfig(Guild guild) {
-        Document document = collection.find(Filters.eq(new Document(Constants.guildIDKey, guild.getId()))).first();
+        Document document = collection.find(
+                Filters.eq(Constants.guildIDKey, guild.getId())
+        ).first();
         if (document == null)
             return null;
         return Constants.parseGuildSetting(document);
     }
 
     public static void modifyGuildConfig(Guild guild, String key, Object value) {
-        Document document = collection.find(Filters.eq(new Document(Constants.guildIDKey, guild.getId()))).first();
+        Document document = collection.find(Filters.eq(Constants.guildIDKey, guild.getId())).first();
         if (document == null)
             return;
         collection.findOneAndUpdate(
