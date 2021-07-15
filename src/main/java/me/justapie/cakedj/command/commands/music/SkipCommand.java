@@ -14,7 +14,6 @@ public class SkipCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
         TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler;
-        scheduler.isInLoop = false;
         scheduler.endTrack();
         EmbedUtils.sendEmbed(event, Color.GREEN, Constants.trackSkipped);
     }
