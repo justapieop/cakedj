@@ -63,6 +63,14 @@ public class TrackScheduler extends AudioEventAdapter {
         Collections.swap(this.queue, a, b);
     }
 
+    public void restart() {
+        this.audioPlayer.startTrack(this.audioPlayer.getPlayingTrack().makeClone(), false);
+    }
+
+    public void shuffle() {
+        Collections.shuffle(this.queue);
+    }
+
     public void setInLoop(boolean b) {
         this.isInLoop = b;
     }

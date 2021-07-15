@@ -57,6 +57,9 @@ public class Constants {
     public static final String swapSuccessful = "Tracks have been swapped";
     public static final String errorRemoving = "Cannot remove specified tracks";
     public static final String removeSuccessful = "Track have been removed";
+    public static final String parseError = "Parse error. Please enter position in `hms` format. Example: `2h3h4s`";
+    public static final String seeked = "Track has been seeked to the specified position";
+    public static final String queueShuffled = "Queue has been shuffled";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
