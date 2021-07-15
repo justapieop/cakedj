@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class TrackScheduler extends AudioEventAdapter {
@@ -40,7 +41,8 @@ public class TrackScheduler extends AudioEventAdapter {
     public void endTrack() {
         this.isInLoop = false;
         AudioTrack track = this.queue.poll();
-        if (track != null) this.previous.add(track);
+        AudioTrack playing = this.audioPlayer.getPlayingTrack();
+        if (playing != null) this.previous.add(playing.makeClone());
         audioPlayer.setPaused(false);
         audioPlayer.startTrack(track, false);
     }
@@ -49,6 +51,20 @@ public class TrackScheduler extends AudioEventAdapter {
         this.queue.clear();
         this.previous.clear();
         endTrack();
+    }
+
+    public void previous() {
+        AudioTrack playing = this.audioPlayer.getPlayingTrack();
+        if (playing != null) this.queue.addFirst(playing.makeClone());
+        this.audioPlayer.startTrack(this.previous.poll(), false);
+    }
+
+    public void swap(int a, int b) throws IndexOutOfBoundsException {
+        Collections.swap(this.queue, a, b);
+    }
+
+    public void setInLoop(boolean b) {
+        this.isInLoop = b;
     }
 
     @Override
