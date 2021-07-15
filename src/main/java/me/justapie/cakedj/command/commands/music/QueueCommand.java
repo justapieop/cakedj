@@ -47,7 +47,7 @@ public class QueueCommand implements ICommand {
                     '`';
             builder.addField(info, "Requested by **" + track.getUserData(String.class) + "**", false);
         }
-        event.deferReply().addEmbeds(builder.build()).queue();
+        EmbedUtils.sendEmbed(event, builder.build());
     }
 
     @Override
