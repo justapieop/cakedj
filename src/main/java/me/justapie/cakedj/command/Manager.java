@@ -32,7 +32,12 @@ public class Manager {
                 new LeaveCommand(),
                 new SwapCommand(),
                 new RemoveCommand(),
-                new LoopCommand()
+                new LoopCommand(),
+                new RestartCommand(),
+                new SeekCommand(),
+                new VolumeCommand(),
+                new ShuffleCommand(),
+                new SkipToCommand()
         );
     }
 
