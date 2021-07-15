@@ -13,12 +13,7 @@ public class Main {
         new DBConnector().initCollection();
 
         DefaultShardManagerBuilder
-                .create(
-                        GatewayIntent.GUILD_MEMBERS,
-                        GatewayIntent.GUILD_VOICE_STATES,
-                        GatewayIntent.DIRECT_MESSAGES
-                )
-                .setToken(ConfigCollection.getConfig().token())
+                .createDefault(ConfigCollection.getConfig().token())
                 .enableIntents(GatewayIntent.GUILD_VOICE_STATES)
                 .addEventListeners(new Listener())
                 .setAutoReconnect(true)
