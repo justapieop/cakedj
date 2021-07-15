@@ -15,5 +15,11 @@ public interface ICommand {
     default boolean needConnectedVoice() { return false; }
     default boolean sameVoice() { return false; }
     default boolean activeQueue() { return false; }
-    default boolean activePlayer() { return false; }
+    default boolean activePlayer() {
+        return false;
+    }
+
+    default boolean customDefined() {
+        return false;
+    }
 }
