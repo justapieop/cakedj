@@ -26,7 +26,13 @@ public class Manager {
                 new SkipCommand(),
                 new PauseCommand(),
                 new ResumeCommand(),
-                new ClearCommand()
+                new ClearCommand(),
+                new PreviousCommand(),
+                new JoinCommand(),
+                new LeaveCommand(),
+                new SwapCommand(),
+                new RemoveCommand(),
+                new LoopCommand()
         );
     }
 
