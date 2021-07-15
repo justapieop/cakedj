@@ -11,7 +11,7 @@ import org.bson.Document;
 public class GuildCollection {
     private static MongoCollection<Document> collection;
     public static void init(MongoDatabase database) {
-        collection = database.getCollection(Constants.configCollection);
+        collection = database.getCollection(Constants.guildCollection);
     }
 
     public static void createGuildConfig(Guild guild) {
