@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.sedmelluq:lavaplayer:1.3.77'
+    implementation 'com.sedmelluq:lavaplayer:1.3.78'
     implementation group: 'net.dv8tion', name: 'JDA', version: '4.3.0_296'
     implementation group: 'me.duncte123', name: 'botCommons', version: '[2.1.3]'
     implementation 'org.discordbots:DBL-Java-Library:2.0.1'
@@ -53,6 +53,10 @@ task buildWithConfig() {
         writer.flush()
         writer.close()
     }
+}
+
+shadowJar {
+    setArchiveName("CakeDJ.jar")
 }
 
 buildWithConfig { dependsOn { ['build'] } }
