@@ -40,7 +40,6 @@ public class PlayCommand implements ICommand {
         } else {
             if (!botState.inVoiceChannel()) {
                 audioMan.openAudioConnection(userState.getChannel());
-                audioMan.setSelfDeafened(true);
             } else if (botState.getChannel() != userState.getChannel()) {
                 EmbedUtils.sendEmbed(event, Color.RED, Constants.noSameVoice);
                 return;
