@@ -23,7 +23,7 @@ public class Constants {
 
     public static final String guildCollection = "guilds";
 
-    public static final String ownerRequired = "You must be the owner of me to continue";
+    public static final String ownerRequired = "You must be my owner to continue";
 
     public static final String configCollection = "config";
     public static final String noConfigDefined = "No config defined";
