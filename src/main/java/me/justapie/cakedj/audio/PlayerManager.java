@@ -12,6 +12,7 @@ import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -38,9 +39,8 @@ public class PlayerManager {
     }
 
     public void loadAndPlay(SlashCommandEvent event, String trackUrl, User requester) {
-        if (event.getGuild() == null) return;
-
         GuildMusicManager musicManager = this.getMusicManager(event.getGuild());
+        InteractionHook hook = event.deferReply().complete();
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
@@ -48,7 +48,9 @@ public class PlayerManager {
                 musicManager.scheduler.enqueue(track);
                 String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
                         "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
-                EmbedUtils.sendEmbed(event, Color.GREEN, desc);
+                hook.sendMessageEmbeds(
+                        EmbedUtils.createEmbed(Color.GREEN, desc)
+                ).queue();
             }
 
             @Override
@@ -59,7 +61,9 @@ public class PlayerManager {
                     musicManager.scheduler.enqueue(track);
                     String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
                             "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
-                    EmbedUtils.sendEmbed(event, Color.GREEN, desc);
+                    hook.sendMessageEmbeds(
+                            EmbedUtils.createEmbed(Color.GREEN, desc)
+                    ).queue();
                     return;
                 }
 
@@ -73,17 +77,23 @@ public class PlayerManager {
                 String desc = "Enqueued **" + size + "** " + (size > 1 ? "tracks" : "track") + " from playlist **" + playlist.getName() + "**" + "\n"
                         + "Requested by **" + requester.getAsTag() + "**";
 
-                EmbedUtils.sendEmbed(event, Color.GREEN, desc);
+                hook.sendMessageEmbeds(
+                        EmbedUtils.createEmbed(Color.GREEN, desc)
+                ).queue();
             }
 
             @Override
             public void noMatches() {
-                EmbedUtils.sendEmbed(event, Color.RED, Constants.noMatches);
+                hook.sendMessageEmbeds(
+                        EmbedUtils.createEmbed(Color.RED, Constants.noMatches)
+                ).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                EmbedUtils.sendEmbed(event, Color.RED, Constants.trackError);
+                hook.sendMessageEmbeds(
+                        EmbedUtils.createEmbed(Color.RED, Constants.trackError)
+                ).queue();
             }
         });
 
