@@ -50,6 +50,13 @@ public class Constants {
     public static final String trackResumed = "Track has been resumed";
     public static final String trackAlreadyResumed = "This track has already been resumed";
     public static final String queueCleared = "Queue cleared";
+    public static final String noPrevTrack = "No previous tracks were found";
+    public static final String channelJoined = "I have joined your channel and prepared to play music";
+    public static final String channelLeft = "I left your voice channel";
+    public static final String errorSwapping = "Cannot swap specified tracks";
+    public static final String swapSuccessful = "Tracks have been swapped";
+    public static final String errorRemoving = "Cannot remove specified tracks";
+    public static final String removeSuccessful = "Track have been removed";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
