@@ -38,6 +38,7 @@ public class Constants {
     public static final String is247Key = "is247";
     public static final String channelRestrictKey = "channelRestrict";
     public static final String djOnlyChannelsKey = "djOnlyChannels";
+    public static final String lavalinkNodeKey = "lavalinkNodes";
 
 
     public static final String queueTitle = "Queue";

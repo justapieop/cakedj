@@ -7,6 +7,9 @@ import me.justapie.cakedj.database.models.ConfigModel;
 import org.bson.Document;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ConfigCollection {
     private static MongoCollection<Document> collection;
     public static void init(MongoDatabase database) {
@@ -35,6 +38,23 @@ public class ConfigCollection {
             @Override
             public String dblToken() {
                 return document.getString(Constants.dblTokenKey);
+            }
+
+            @Override
+            public Map<String, String> nodes() {
+                String t = document.getString(Constants.lavalinkNodeKey);
+                Map<String, String> map = new HashMap();
+                String[] pairs = t.split("&");
+                for (String pair : pairs) {
+                    String[] kv = pair.split("=");
+                    map.put(kv[0], kv[1]);
+                }
+                return map;
+            }
+
+            @Override
+            public String rawNodeData() {
+                return document.getString(Constants.lavalinkNodeKey);
             }
         };
     }
