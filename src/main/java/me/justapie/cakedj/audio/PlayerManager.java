@@ -16,7 +16,6 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +95,9 @@ public class PlayerManager {
                 hook.sendMessageEmbeds(
                         EmbedUtils.createEmbed(Color.RED, Constants.trackError)
                 ).queue();
-                LoggerFactory.getLogger(PlayerManager.class).error(Arrays.toString(exception.getStackTrace()));
+                LoggerFactory.getLogger(PlayerManager.class).error(
+                        exception.getMessage()
+                );
             }
         });
 
