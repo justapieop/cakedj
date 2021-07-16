@@ -41,6 +41,10 @@ public class Constants {
 
     public static final String queueTitle = "Queue";
     public static final String comingUp = "Coming up next";
+    public static final String unrestrictedChannels = "Unrestricted channels";
+
+    public static final String announcement = "Please use Discord's Slash Command system to execute commands";
+    public static final String invite = "Click to invite me to your server";
 
     public static final String noMatches = "No tracks found";
     public static final String trackError = "Error while loading track. Please try again";
@@ -58,8 +62,11 @@ public class Constants {
     public static final String errorRemoving = "Cannot remove specified tracks";
     public static final String removeSuccessful = "Track have been removed";
     public static final String parseError = "Parse error. Please enter position in `hms` format. Example: `2h3h4s`";
+    public static final String numberParseError = "Invalid number";
     public static final String seeked = "Track has been seeked to the specified position";
     public static final String queueShuffled = "Queue has been shuffled";
+    public static final String emptyChannelList = "Please add an unrestricted channel before turning on restrict mode";
+    public static final String invalidChannelType = "Invalid channel type";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
