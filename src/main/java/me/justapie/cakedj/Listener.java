@@ -73,7 +73,7 @@ public class Listener extends ListenerAdapter {
         );
 
         for (Guild guild : event.getJDA().getGuilds())
-            guild.updateCommands().addCommands(man.commandData).complete();
+            guild.updateCommands().addCommands(man.commandData).queue();
 
         log.info("Logged in as " + event.getJDA().getSelfUser().getAsTag());
     }
