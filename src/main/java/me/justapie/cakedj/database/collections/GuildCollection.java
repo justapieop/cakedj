@@ -8,8 +8,11 @@ import me.justapie.cakedj.database.models.GuildModel;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bson.Document;
 
+import javax.annotation.Nullable;
+
 public class GuildCollection {
     private static MongoCollection<Document> collection;
+
     public static void init(MongoDatabase database) {
         collection = database.getCollection(Constants.guildCollection);
     }
@@ -20,6 +23,7 @@ public class GuildCollection {
         collection.insertOne(Constants.getDefaultGuildSetting(guild));
     }
 
+    @Nullable
     public static GuildModel getGuildConfig(Guild guild) {
         Document document = collection.find(
                 Filters.eq(Constants.guildIDKey, guild.getId())
@@ -30,13 +34,13 @@ public class GuildCollection {
     }
 
     public static void modifyGuildConfig(Guild guild, String key, Object value) {
-        Document document = collection.find(Filters.eq(Constants.guildIDKey, guild.getId())).first();
+        Document document = collection.find(
+                Filters.eq(Constants.guildIDKey, guild.getId())
+        ).first();
         if (document == null)
             return;
-        collection.findOneAndUpdate(
-                Filters.eq(new Document(Constants.guildNameKey, guild.getId())),
-                new Document("$set", new Document(key, value))
-        );
+        document = new Document("$set", new Document(key, value));
+        collection.findOneAndUpdate(Filters.eq(Constants.guildIDKey, guild.getId()), document);
     }
 
     public static void deleteGuildConfig(Guild guild) {
