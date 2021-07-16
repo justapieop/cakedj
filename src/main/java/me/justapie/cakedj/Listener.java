@@ -56,21 +56,23 @@ public class Listener extends ListenerAdapter {
             });
         }
 
-        DiscordBotListAPI botListAPI = new DiscordBotListAPI.
-                Builder()
-                .botId(event.getJDA().getSelfUser().getId())
-                .token(ConfigCollection.getConfig().dblToken())
-                .build();
+        if (ConfigCollection.getConfig().dblToken() != null || !ConfigCollection.getConfig().dblToken().isEmpty()) {
+            DiscordBotListAPI botListAPI = new DiscordBotListAPI.
+                    Builder()
+                    .botId(event.getJDA().getSelfUser().getId())
+                    .token(ConfigCollection.getConfig().dblToken())
+                    .build();
 
-        new Timer().scheduleAtFixedRate(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        botListAPI.setStats(event.getGuildTotalCount());
+            new Timer().scheduleAtFixedRate(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            botListAPI.setStats(event.getGuildTotalCount());
+                        }
                     }
-                }
-                , 0, 3600000
-        );
+                    , 0, 3600000
+            );
+        }
 
         for (Guild guild : event.getJDA().getGuilds())
             guild.updateCommands().addCommands(man.commandData).queue();
