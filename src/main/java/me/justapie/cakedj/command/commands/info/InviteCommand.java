@@ -24,7 +24,7 @@ public class InviteCommand implements ICommand {
                         Permission.VOICE_MUTE_OTHERS
                 );
         EmbedUtils.sendEmbed(event, Color.GREEN,
-                "(" + Constants.invite + ")[" + link + "]"
+                "[" + Constants.invite + "](" + link + ")"
         );
     }
 
