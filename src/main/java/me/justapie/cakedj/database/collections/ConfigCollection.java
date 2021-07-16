@@ -43,7 +43,7 @@ public class ConfigCollection {
             @Override
             public Map<String, String> nodes() {
                 String t = document.getString(Constants.lavalinkNodeKey);
-                Map<String, String> map = new HashMap();
+                Map<String, String> map = new HashMap<>();
                 String[] pairs = t.split("&");
                 for (String pair : pairs) {
                     String[] kv = pair.split("=");
