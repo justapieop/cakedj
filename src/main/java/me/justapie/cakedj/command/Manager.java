@@ -3,6 +3,13 @@ package me.justapie.cakedj.command;
 import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
+import me.justapie.cakedj.command.commands.config.ChannelManageCommand;
+import me.justapie.cakedj.command.commands.config.ChannelRestrictCommand;
+import me.justapie.cakedj.command.commands.filter.NightcoreCommand;
+import me.justapie.cakedj.command.commands.filter.SpeedCommand;
+import me.justapie.cakedj.command.commands.info.BotInfoCommand;
+import me.justapie.cakedj.command.commands.info.InviteCommand;
+import me.justapie.cakedj.command.commands.info.PingCommand;
 import me.justapie.cakedj.command.commands.music.*;
 import me.justapie.cakedj.database.collections.ConfigCollection;
 import me.justapie.cakedj.utils.EmbedUtils;
@@ -37,7 +44,14 @@ public class Manager {
                 new SeekCommand(),
                 new VolumeCommand(),
                 new ShuffleCommand(),
-                new SkipToCommand()
+                new SkipToCommand(),
+                new NightcoreCommand(),
+                new SpeedCommand(),
+                new ChannelRestrictCommand(),
+                new ChannelManageCommand(),
+                new PingCommand(),
+                new BotInfoCommand(),
+                new InviteCommand()
         );
     }
 
