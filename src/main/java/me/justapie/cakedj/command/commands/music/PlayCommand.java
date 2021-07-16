@@ -65,7 +65,7 @@ public class PlayCommand implements ICommand {
 
     @Override
     public List<Permission> getBotPermission() {
-        return List.of(Permission.VOICE_CONNECT, Permission.VOICE_SPEAK);
+        return List.of(Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.MANAGE_CHANNEL);
     }
 
     private boolean isURL(String s) {
