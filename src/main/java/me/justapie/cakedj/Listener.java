@@ -3,8 +3,10 @@ package me.justapie.cakedj;
 import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.Manager;
+import me.justapie.cakedj.database.collections.ConfigCollection;
 import me.justapie.cakedj.database.collections.GuildCollection;
 import me.justapie.cakedj.database.models.GuildModel;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.StageChannel;
@@ -15,13 +17,18 @@ import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.discordbots.api.client.DiscordBotListAPI;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 public class Listener extends ListenerAdapter {
@@ -34,6 +41,22 @@ public class Listener extends ListenerAdapter {
 
         for (Guild guild : event.getJDA().getGuilds())
             guild.updateCommands().addCommands(man.commandData).queue();
+
+        DiscordBotListAPI botListAPI = new DiscordBotListAPI.
+                Builder()
+                .botId(event.getJDA().getSelfUser().getId())
+                .token(ConfigCollection.getConfig().dblToken())
+                .build();
+
+        new Timer().scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        botListAPI.setStats(event.getGuildTotalCount());
+                    }
+                }
+                , 0, 3600000
+        );
 
         log.info("Logged in as " + event.getJDA().getSelfUser().getAsTag());
     }
@@ -84,6 +107,21 @@ public class Listener extends ListenerAdapter {
                 musicMan.audioPlayer.destroy();
                 event.getGuild().getAudioManager().closeAudioConnection();
             }
+        }
+    }
+
+    @Override
+    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+        super.onGuildMessageReceived(event);
+        if (event.getMessage().getMentionedMembers().contains(
+                event.getGuild().getSelfMember()
+        )) {
+            event.getChannel().sendMessageEmbeds(
+                    new EmbedBuilder()
+                            .setColor(Color.GREEN)
+                            .setDescription(Constants.announcement)
+                            .build()
+            ).queue();
         }
     }
 
