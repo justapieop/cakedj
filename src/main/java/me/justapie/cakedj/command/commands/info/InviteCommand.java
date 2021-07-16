@@ -12,13 +12,16 @@ import java.awt.*;
 public class InviteCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
-        String link = event.getJDA().getInviteUrl(
-                Permission.VOICE_CONNECT,
-                Permission.VOICE_SPEAK,
-                Permission.MESSAGE_WRITE,
-                Permission.MESSAGE_READ,
-                Permission.MESSAGE_HISTORY
-        );
+        String link = event.getJDA()
+                .setRequiredScopes(Constants.requiredScopes)
+                .getInviteUrl(
+                        Permission.VOICE_CONNECT,
+                        Permission.VOICE_SPEAK,
+                        Permission.MESSAGE_WRITE,
+                        Permission.MESSAGE_READ,
+                        Permission.MESSAGE_HISTORY,
+                        Permission.USE_SLASH_COMMANDS
+                );
         EmbedUtils.sendEmbed(event, Color.GREEN,
                 "(" + Constants.invite + ")[" + link + "]"
         );
