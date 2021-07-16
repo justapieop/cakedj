@@ -31,6 +31,7 @@ public class Constants {
     public static final String ownerIDKey = "ownerID";
     public static final String dblTokenKey = "dblToken";
     public static final String musicWithCakeDJ = "Music with CakeDJ";
+    public static final String[] requiredScopes = new String[]{"bot", "applications.commands"};
 
     public static final String guildIDKey = "guildID";
     public static final String guildNameKey = "guildName";
