@@ -18,7 +18,7 @@ public class BotInfoCommand implements ICommand {
                 .setThumbnail(self.getAvatarUrl())
                 .addField("OS", System.getProperty("os.name"), true)
                 .addField("Java version", System.getProperty("java.version"), true)
-                .addField("Owner", String.valueOf(event.getJDA().getUserById(ConfigCollection.getConfig().ownerID())), true)
+                .addField("Owner", event.getJDA().getUserById(ConfigCollection.getConfig().ownerID()).getAsTag(), true)
                 .addField("Bot created in", TimeUtils.formatDate(self.getTimeCreated()), true)
                 .addField("Total servers", String.valueOf(event.getJDA().getGuilds().size()), true)
                 .addField("Total shards", String.valueOf(event.getJDA().getShardManager().getShardsTotal()), true);
