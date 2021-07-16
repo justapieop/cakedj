@@ -25,6 +25,12 @@ public class ChannelManageCommand implements ICommand {
             return;
         }
         List<String> djOnlyChannels = guildSetting.djOnlyChannels();
+
+        if (djOnlyChannels.isEmpty()) {
+            EmbedUtils.sendEmbed(event, Color.RED, Constants.emptyChannelList);
+            return;
+        }
+
         if (event.getSubcommandName().equals("add"))
             this.subCommandAdd(event, djOnlyChannels);
         else if (event.getSubcommandName().equals("remove"))
