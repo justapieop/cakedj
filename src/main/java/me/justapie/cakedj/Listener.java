@@ -95,15 +95,17 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
         super.onGuildVoiceJoin(event);
-        if (event.getChannelJoined() instanceof StageChannel) {
-            StageChannel stage = (StageChannel) event.getChannelJoined();
-            if (stage.getStageInstance() == null) stage.createStageInstance(Constants.musicWithCakeDJ).queue();
-            event.getGuild().requestToSpeak();
-            return;
+        if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember())) {
+            if (event.getChannelJoined() instanceof StageChannel) {
+                StageChannel stage = (StageChannel) event.getChannelJoined();
+                if (stage.getStageInstance() == null) stage.createStageInstance(Constants.musicWithCakeDJ).queue();
+                event.getGuild().requestToSpeak();
+                return;
+            }
+            AudioManager audioMan = event.getGuild().getAudioManager();
+            audioMan.setSelfMuted(false);
+            audioMan.setSelfDeafened(true);
         }
-        AudioManager audioMan = event.getGuild().getAudioManager();
-        audioMan.setSelfMuted(false);
-        audioMan.setSelfDeafened(true);
     }
 
     @Override
