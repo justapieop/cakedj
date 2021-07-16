@@ -42,9 +42,6 @@ public class Listener extends ListenerAdapter {
     public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
 
-        for (Guild guild : event.getJDA().getGuilds())
-            guild.updateCommands().addCommands(man.commandData).queue();
-
         if (!ConfigCollection.getConfig().rawNodeData().isEmpty()) {
             JdaLavalink lavalink = new JdaLavalink(
                     event.getJDA().getSelfUser().getId(),
@@ -74,6 +71,9 @@ public class Listener extends ListenerAdapter {
                 }
                 , 0, 3600000
         );
+
+        for (Guild guild : event.getJDA().getGuilds())
+            guild.updateCommands().addCommands(man.commandData).queue();
 
         log.info("Logged in as " + event.getJDA().getSelfUser().getAsTag());
     }
