@@ -120,13 +120,19 @@ public class Listener extends ListenerAdapter {
             GuildCollection.modifyGuildConfig(event.getGuild(), Constants.is247Key, false);
             musicMan.audioPlayer.destroy();
         } else {
-            List<Member> members = event.getChannelLeft().getMembers();
-            members = members.stream().filter(
-                    (member) -> !member.getUser().isBot()
-            ).collect(Collectors.toList());
-            if (members.isEmpty()) {
-                musicMan.audioPlayer.destroy();
-                event.getGuild().getAudioManager().closeAudioConnection();
+            if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
+                List<Member> members = event.getChannelLeft().getMembers();
+                members = members.stream().filter(
+                        (member) -> !member.getUser().isBot()
+                ).collect(Collectors.toList());
+                if (members.isEmpty()) {
+                    musicMan.audioPlayer.destroy();
+                    if (event.getChannelLeft() instanceof StageChannel)
+                        if (((StageChannel) event.getChannelLeft()).getStageInstance() != null)
+                            ((StageChannel) event.getChannelLeft()).getStageInstance().delete().queue();
+
+                    event.getGuild().getAudioManager().closeAudioConnection();
+                }
             }
         }
     }
