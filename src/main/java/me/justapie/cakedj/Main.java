@@ -15,6 +15,7 @@ public class Main {
         DefaultShardManagerBuilder
                 .createDefault(ConfigCollection.getConfig().token())
                 .enableIntents(GatewayIntent.GUILD_VOICE_STATES)
+                .enableIntents(GatewayIntent.GUILD_MESSAGES)
                 .addEventListeners(new Listener())
                 .setAutoReconnect(true)
                 .setAudioSendFactory(new NativeAudioSendFactory())
