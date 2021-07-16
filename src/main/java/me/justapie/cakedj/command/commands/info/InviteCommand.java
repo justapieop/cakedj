@@ -20,7 +20,8 @@ public class InviteCommand implements ICommand {
                         Permission.MESSAGE_WRITE,
                         Permission.MESSAGE_READ,
                         Permission.MESSAGE_HISTORY,
-                        Permission.USE_SLASH_COMMANDS
+                        Permission.USE_SLASH_COMMANDS,
+                        Permission.VOICE_MUTE_OTHERS
                 );
         EmbedUtils.sendEmbed(event, Color.GREEN,
                 "(" + Constants.invite + ")[" + link + "]"
