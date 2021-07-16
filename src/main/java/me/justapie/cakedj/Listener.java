@@ -161,6 +161,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         super.onGuildJoin(event);
+        event.getGuild().updateCommands().addCommands(man.commandData).queue();
         GuildCollection.createGuildConfig(event.getGuild());
     }
 }
