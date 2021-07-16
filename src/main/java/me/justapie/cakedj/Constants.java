@@ -29,7 +29,7 @@ public class Constants {
     public static final String noConfigDefined = "No config defined";
     public static final String tokenKey = "token";
     public static final String ownerIDKey = "ownerID";
-    public static final String dblTokenKey = "DBLToken";
+    public static final String dblTokenKey = "dblToken";
     public static final String musicWithCakeDJ = "Music with CakeDJ";
 
     public static final String guildIDKey = "guildID";
