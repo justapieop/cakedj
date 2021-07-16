@@ -75,6 +75,14 @@ public class TrackScheduler extends AudioEventAdapter {
         this.isInLoop = b;
     }
 
+    public void setNightcore(boolean b) {
+        this.isNightcore = b;
+    }
+
+    public void setEarrape(boolean b) {
+        this.isEarrape = b;
+    }
+
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext) {
