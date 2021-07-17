@@ -16,6 +16,8 @@ public class Constants {
     public static final String noCommandFound = "No command found";
     public static final String cannotDetectState = "Cannot detect your voice state";
 
+    public static final String filterReset = "All filters have been reset";
+
     public static final String cannotSelect = "Cannot select that page";
 
     public static final String databaseName = "CakeDJ";
