@@ -1,6 +1,5 @@
 package me.justapie.cakedj;
 
-import me.justapie.cakedj.database.models.GuildModel;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bson.Document;
 
@@ -78,35 +77,5 @@ public class Constants {
                 .append(is247Key, false)
                 .append(channelRestrictKey, false)
                 .append(djOnlyChannelsKey, List.of());
-    }
-
-    public static GuildModel parseGuildSetting(Document document) {
-        return new GuildModel() {
-
-            @Override
-            public String guildName() {
-                return document.getString(guildNameKey);
-            }
-
-            @Override
-            public String guildID() {
-                return document.getString(guildIDKey);
-            }
-
-            @Override
-            public boolean is247() {
-                return document.getBoolean(is247Key);
-            }
-
-            @Override
-            public boolean channelRestrict() {
-                return document.getBoolean(channelRestrictKey);
-            }
-
-            @Override
-            public List<String> djOnlyChannels() {
-                return document.getList(djOnlyChannelsKey, String.class);
-            }
-        };
     }
 }
