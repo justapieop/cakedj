@@ -34,13 +34,15 @@ public class PlayerManager {
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
 
-        new YoutubeIpRotatorSetup(
-                new NanoIpRoutePlanner(
-                        ConfigCollection.getConfig().ipv6Block(), true
-                )
-        ).forSource(
-                audioPlayerManager.source(YoutubeAudioSourceManager.class)
-        ).setup();
+        if (!ConfigCollection.getConfig().ipv6Block().isEmpty()) {
+            new YoutubeIpRotatorSetup(
+                    new NanoIpRoutePlanner(
+                            ConfigCollection.getConfig().ipv6Block(), true
+                    )
+            ).forSource(
+                    audioPlayerManager.source(YoutubeAudioSourceManager.class)
+            ).setup();
+        }
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {
