@@ -1,6 +1,8 @@
 package me.justapie.cakedj.database.models;
 
-import java.util.Map;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
+
+import java.util.List;
 
 public interface ConfigModel {
     String token();
@@ -9,7 +11,5 @@ public interface ConfigModel {
 
     String dblToken();
 
-    Map<String, String> nodes();
-
-    String rawNodeData();
+    List<IpBlock> ipv6Block();
 }

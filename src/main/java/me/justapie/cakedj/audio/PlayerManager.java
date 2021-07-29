@@ -4,10 +4,14 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.NanoIpRoutePlanner;
 import me.justapie.cakedj.Constants;
+import me.justapie.cakedj.database.collections.ConfigCollection;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -29,6 +33,14 @@ public class PlayerManager {
         this.audioPlayerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
+
+        new YoutubeIpRotatorSetup(
+                new NanoIpRoutePlanner(
+                        ConfigCollection.getConfig().ipv6Block(), true
+                )
+        ).forSource(
+                audioPlayerManager.source(YoutubeAudioSourceManager.class)
+        ).setup();
     }
 
     public GuildMusicManager getMusicManager(Guild guild) {

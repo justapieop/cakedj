@@ -2,13 +2,15 @@ package me.justapie.cakedj.database.collections;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.database.models.ConfigModel;
 import org.bson.Document;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigCollection {
     private static MongoCollection<Document> collection;
@@ -41,20 +43,13 @@ public class ConfigCollection {
             }
 
             @Override
-            public Map<String, String> nodes() {
-                String t = document.getString(Constants.lavalinkNodeKey);
-                Map<String, String> map = new HashMap<>();
-                String[] pairs = t.split("&");
-                for (String pair : pairs) {
-                    String[] kv = pair.split("=");
-                    map.put(kv[0], kv[1]);
-                }
-                return map;
-            }
+            public List<IpBlock> ipv6Block() {
+                List<String> cidr = document.getList("ipv6Block", String.class);
+                List<IpBlock> blocks = new ArrayList<>();
+                for (String s : cidr)
+                    blocks.add(new Ipv6Block(s));
 
-            @Override
-            public String rawNodeData() {
-                return document.getString(Constants.lavalinkNodeKey);
+                return blocks;
             }
         };
     }
