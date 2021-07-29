@@ -1,6 +1,5 @@
 package me.justapie.cakedj;
 
-import lavalink.client.io.jda.JdaLavalink;
 import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.Manager;
@@ -27,8 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,22 +38,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
-
-        if (!ConfigCollection.getConfig().rawNodeData().isEmpty()) {
-            JdaLavalink lavalink = new JdaLavalink(
-                    event.getJDA().getSelfUser().getId(),
-                    event.getJDA().getShardManager().getShardsTotal(),
-                    shardId -> event.getJDA().getShardManager().getShardById(shardId)
-            );
-            ConfigCollection.getConfig().nodes().forEach((key, val) -> {
-                try {
-                    lavalink.addNode(new URI(key), val);
-                } catch (URISyntaxException ignored) {
-                }
-            });
-        }
-
-        if (ConfigCollection.getConfig().dblToken() != null || !ConfigCollection.getConfig().dblToken().isEmpty()) {
+        if (ConfigCollection.getConfig().dblToken() != null && !ConfigCollection.getConfig().dblToken().isEmpty()) {
             DiscordBotListAPI botListAPI = new DiscordBotListAPI.
                     Builder()
                     .botId(event.getJDA().getSelfUser().getId())
