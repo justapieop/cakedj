@@ -78,7 +78,8 @@ public class Listener extends ListenerAdapter {
     public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
         super.onGuildVoiceJoin(event);
         if (event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember())) {
-            if (event.getChannelJoined() instanceof StageChannel stage) {
+            if (event.getChannelJoined() instanceof StageChannel) {
+                StageChannel stage = (StageChannel) event.getChannelJoined();
                 if (stage.getStageInstance() == null)
                     stage.createStageInstance(Constants.musicWithCakeDJ).queue();
                 event.getGuild().requestToSpeak();
@@ -109,7 +110,8 @@ public class Listener extends ListenerAdapter {
                 ).collect(Collectors.toList());
                 if (members.isEmpty()) {
                     musicMan.audioPlayer.destroy();
-                    if (event.getChannelLeft() instanceof StageChannel stage) {
+                    if (event.getChannelLeft() instanceof StageChannel) {
+                        StageChannel stage = (StageChannel) event.getChannelLeft();
                         if (stage.getStageInstance() != null)
                             stage.getStageInstance().delete().queue();
                     }

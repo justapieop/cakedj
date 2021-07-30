@@ -31,10 +31,11 @@ public class PlayCommand implements ICommand {
         AudioManager audioMan = event.getGuild().getAudioManager();
 
         if (!userState.inVoiceChannel()) {
-            if (!(userState.getChannel() instanceof StageChannel stage)) {
+            if (!(userState.getChannel() instanceof StageChannel)) {
                 EmbedUtils.sendEmbed(event, Color.RED, Constants.noVoiceConnection);
                 return;
             }
+            StageChannel stage = (StageChannel) userState.getChannel();
             audioMan.openAudioConnection(stage);
         } else {
             if (!botState.inVoiceChannel()) {
