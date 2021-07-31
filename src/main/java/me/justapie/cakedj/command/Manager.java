@@ -5,6 +5,7 @@ import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.commands.config.ChannelManageCommand;
 import me.justapie.cakedj.command.commands.config.ChannelRestrictCommand;
+import me.justapie.cakedj.command.commands.config.TFSCommand;
 import me.justapie.cakedj.command.commands.filter.BassboostCommand;
 import me.justapie.cakedj.command.commands.filter.NightcoreCommand;
 import me.justapie.cakedj.command.commands.filter.ResetCommand;
@@ -55,7 +56,8 @@ public class Manager {
                 new BotInfoCommand(),
                 new InviteCommand(),
                 new ResetCommand(),
-                new BassboostCommand()
+                new BassboostCommand(),
+                new TFSCommand()
         );
     }
 
