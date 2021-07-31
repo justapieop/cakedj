@@ -1,6 +1,7 @@
 package me.justapie.cakedj.command.commands.config;
 
 import me.justapie.cakedj.Constants;
+import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.ICommand;
 import me.justapie.cakedj.database.collections.GuildCollection;
 import me.justapie.cakedj.database.models.GuildModel;
@@ -23,6 +24,7 @@ public class TFSCommand implements ICommand {
         if (!event.getOptions().isEmpty())
             enable = event.getOptions().get(0).getAsBoolean();
         GuildCollection.modifyGuildConfig(event.getGuild(), Constants.is247Key, enable);
+        PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.setInLoop(enable);
         String status = enable ? "on" : "off";
         String desc = "Turned " + status + " 24/7 mode";
         EmbedUtils.sendEmbed(event, Color.GREEN, desc);
