@@ -96,13 +96,13 @@ public class Listener extends ListenerAdapter {
         super.onGuildVoiceLeave(event);
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
         if (guildSetting == null) return;
-        if (guildSetting.is247()) return;
         GuildMusicManager musicMan = PlayerManager.getInstance().getMusicManager(event.getGuild());
         if (event.getMember().equals(event.getGuild().getSelfMember())) {
             musicMan.audioPlayer.setFilterFactory(null);
             GuildCollection.modifyGuildConfig(event.getGuild(), Constants.is247Key, false);
             musicMan.audioPlayer.destroy();
         } else {
+            if (guildSetting.is247()) return;
             if (event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember())) {
                 List<Member> members = event.getChannelLeft().getMembers();
                 members = members.stream().filter(
