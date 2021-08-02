@@ -1,10 +1,26 @@
 <configuration debug="false">
+    <property name="LOG_FILE" value="log"/>
+    <property name="LOG_DIR" value="./logs"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern> %d{dd-MM-yyyy HH:mm:ss} %boldCyan(%-32.-32thread) %boldGreen(%-20.-20logger{0}) %highlight(%-6level) %msg%n </pattern>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss} %boldCyan(%-32.-32thread) %boldGreen(%-20.-20logger{0})
+                %highlight(%-6level) %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.txt</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/%d{yyyy/MM}/${LOG_FILE}.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
     <root level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
