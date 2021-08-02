@@ -39,7 +39,6 @@ public class Constants {
     public static final String is247Key = "is247";
     public static final String channelRestrictKey = "channelRestrict";
     public static final String djOnlyChannelsKey = "djOnlyChannels";
-    public static final String lavalinkNodeKey = "lavalinkNodes";
 
     public static final String queueTitle = "Queue";
     public static final String comingUp = "Coming up next";
@@ -69,6 +68,10 @@ public class Constants {
     public static final String queueShuffled = "Queue has been shuffled";
     public static final String emptyChannelList = "Please add an unrestricted channel before turning on restrict mode";
     public static final String invalidChannelType = "Invalid channel type";
+
+    public static final String noLog = "There's no log files available";
+    public static final String cannotSend = "Cannot send you the log. Make sure your DM is enabled";
+    public static final String logSent = "Log submitted";
 
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
