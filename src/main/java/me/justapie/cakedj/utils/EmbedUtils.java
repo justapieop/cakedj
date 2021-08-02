@@ -13,8 +13,17 @@ public class EmbedUtils {
         event.deferReply().queue((resp) -> resp.sendMessageEmbeds(embed).queue());
     }
 
+    public static void sendEmbed(SlashCommandEvent event, Color color, String desc, boolean ephemeral) {
+        MessageEmbed embed = new EmbedBuilder().setColor(color).setDescription(desc).build();
+        event.deferReply().setEphemeral(ephemeral).queue((resp) -> resp.sendMessageEmbeds(embed).queue());
+    }
+
     public static void sendEmbed(SlashCommandEvent event, MessageEmbed... embed) {
         event.deferReply().queue((resp) -> resp.sendMessageEmbeds(Arrays.asList(embed)).queue());
+    }
+
+    public static void sendEmbed(SlashCommandEvent event, boolean ephemeral, MessageEmbed... embed) {
+        event.deferReply().setEphemeral(ephemeral).queue((resp) -> resp.sendMessageEmbeds(Arrays.asList(embed)).queue());
     }
 
     public static MessageEmbed createEmbed(Color color, String desc) {
