@@ -104,3 +104,7 @@ gradle-app.setting
 
 # Environment file
 .env
+
+# Logs
+logs/
+log.txt
