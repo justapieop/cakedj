@@ -38,6 +38,7 @@ dependencies {
     implementation 'io.github.cdimascio:dotenv-java:2.2.0'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.5'
     implementation group: 'org.mongodb', name: 'mongodb-driver-legacy', version: '4.3.0-beta1'
     implementation 'com.github.natanbc:lavadsp:0.7.7'
     implementation 'com.sedmelluq:jda-nas:1.1.0'
