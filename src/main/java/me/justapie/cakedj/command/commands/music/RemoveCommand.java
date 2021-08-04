@@ -2,6 +2,7 @@ package me.justapie.cakedj.command.commands.music;
 
 import me.justapie.cakedj.Constants;
 import me.justapie.cakedj.audio.PlayerManager;
+import me.justapie.cakedj.audio.TrackScheduler;
 import me.justapie.cakedj.command.ICommand;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -14,8 +15,10 @@ public class RemoveCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
         int a = Integer.parseInt(event.getOptions().get(0).getAsString());
+        TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler;
+        if (a <= 0 || a >= scheduler.queue.size())
         try {
-            PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.queue.remove(a);
+            scheduler.queue.remove(a - 1);
         } catch (IndexOutOfBoundsException e) {
             EmbedUtils.sendEmbed(event, Color.RED, Constants.errorRemoving);
         }
