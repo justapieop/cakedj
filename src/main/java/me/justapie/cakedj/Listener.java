@@ -67,7 +67,6 @@ public class Listener extends ListenerAdapter {
         super.onSlashCommand(event);
         if (event.getGuild() == null) return;
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        if (guildSetting == null) return;
         if (guildSetting.channelRestrict())
             if (!guildSetting.djOnlyChannels().contains(event.getChannel().getId()))
                 return;
@@ -95,7 +94,6 @@ public class Listener extends ListenerAdapter {
     public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event) {
         super.onGuildVoiceLeave(event);
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        if (guildSetting == null) return;
         GuildMusicManager musicMan = PlayerManager.getInstance().getMusicManager(event.getGuild());
         if (event.getMember().equals(event.getGuild().getSelfMember())) {
             musicMan.audioPlayer.setFilterFactory(null);
@@ -141,7 +139,6 @@ public class Listener extends ListenerAdapter {
     public void onTextChannelDelete(@NotNull TextChannelDeleteEvent event) {
         super.onTextChannelDelete(event);
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        assert guildSetting != null;
         List<String> djOnlyChannels = guildSetting.djOnlyChannels();
         djOnlyChannels.remove(event.getChannel().getId());
         GuildCollection.modifyGuildConfig(event.getGuild(), Constants.djOnlyChannelsKey, djOnlyChannels);

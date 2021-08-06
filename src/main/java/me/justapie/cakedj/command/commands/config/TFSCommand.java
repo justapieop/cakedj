@@ -16,10 +16,6 @@ public class TFSCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        if (guildSetting == null) {
-            EmbedUtils.sendEmbed(event, Color.RED, Constants.noConfigDefined);
-            return;
-        }
         boolean enable = !guildSetting.is247();
         if (!event.getOptions().isEmpty())
             enable = event.getOptions().get(0).getAsBoolean();

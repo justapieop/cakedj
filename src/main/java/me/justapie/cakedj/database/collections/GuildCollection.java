@@ -8,7 +8,7 @@ import me.justapie.cakedj.database.models.GuildModel;
 import net.dv8tion.jda.api.entities.Guild;
 import org.bson.Document;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class GuildCollection {
@@ -24,13 +24,17 @@ public class GuildCollection {
         collection.insertOne(Constants.getDefaultGuildSetting(guild));
     }
 
-    @Nullable
+    @Nonnull
     public static GuildModel getGuildConfig(Guild guild) {
         Document document = collection.find(
                 Filters.eq(Constants.guildIDKey, guild.getId())
         ).first();
-        if (document == null)
-            return null;
+        if (document == null) {
+            createGuildConfig(guild);
+            document = collection.find(
+                    Filters.eq(Constants.guildIDKey, guild.getId())
+            ).first();
+        }
         return parseGuildSetting(document);
     }
 
@@ -38,8 +42,9 @@ public class GuildCollection {
         Document document = collection.find(
                 Filters.eq(Constants.guildIDKey, guild.getId())
         ).first();
-        if (document == null)
-            return;
+        if (document == null) {
+            createGuildConfig(guild);
+        }
         document = new Document("$set", new Document(key, value));
         collection.findOneAndUpdate(Filters.eq(Constants.guildIDKey, guild.getId()), document);
     }

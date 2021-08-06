@@ -16,11 +16,15 @@ public class RemoveCommand implements ICommand {
     public void exec(SlashCommandEvent event) {
         int a = Integer.parseInt(event.getOptions().get(0).getAsString());
         TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler;
-        if (a <= 0 || a >= scheduler.queue.size())
+        if (a <= 0 || a >= scheduler.queue.size()) {
+            EmbedUtils.sendEmbed(event, Color.RED, Constants.errorRemoving);
+            return;
+        }
         try {
             scheduler.queue.remove(a - 1);
         } catch (IndexOutOfBoundsException e) {
             EmbedUtils.sendEmbed(event, Color.RED, Constants.errorRemoving);
+            return;
         }
         EmbedUtils.sendEmbed(event, Color.RED, Constants.removeSuccessful);
     }
@@ -28,7 +32,7 @@ public class RemoveCommand implements ICommand {
     @Override
     public CommandData getCommandData() {
         return new CommandData("remove", "Remove selected track")
-                .addOption(OptionType.INTEGER, "a", "Track position", true);
+                .addOption(OptionType.INTEGER, "position", "Track position", true);
     }
 
     @Override

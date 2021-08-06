@@ -1,6 +1,7 @@
 package me.justapie.cakedj;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 import org.bson.Document;
 
 import java.util.List;
@@ -26,7 +27,11 @@ public class Constants {
 
     public static final String ownerRequired = "You must be my owner to continue";
 
+    public static final String userIDKey = "userID";
+    public static final String playlistKey = "playlists";
+
     public static final String configCollection = "config";
+    public static final String userCollection = "users";
     public static final String noConfigDefined = "No config defined";
     public static final String tokenKey = "token";
     public static final String ownerIDKey = "ownerID";
@@ -73,6 +78,8 @@ public class Constants {
     public static final String cannotSend = "Cannot send you the log. Make sure your DM is enabled";
     public static final String logSent = "Log submitted";
 
+    public static final String playlistSaved = "Playlist saved";
+
     public static Document getDefaultGuildSetting(Guild guild) {
         return new Document()
                 .append(guildNameKey, guild.getName())
@@ -80,5 +87,11 @@ public class Constants {
                 .append(is247Key, false)
                 .append(channelRestrictKey, false)
                 .append(djOnlyChannelsKey, List.of());
+    }
+
+    public static final Document getDefaultUserSetting(User user) {
+        return new Document()
+                .append(Constants.userIDKey, user.getId())
+                .append(Constants.playlistKey, List.of(List.of()));
     }
 }

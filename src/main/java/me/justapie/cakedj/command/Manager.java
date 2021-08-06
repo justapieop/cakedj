@@ -15,6 +15,8 @@ import me.justapie.cakedj.command.commands.info.InviteCommand;
 import me.justapie.cakedj.command.commands.info.PingCommand;
 import me.justapie.cakedj.command.commands.music.*;
 import me.justapie.cakedj.command.commands.owner.GetLogCommand;
+import me.justapie.cakedj.command.commands.user.PlaylistCommand;
+import me.justapie.cakedj.command.commands.user.SaveCommand;
 import me.justapie.cakedj.database.collections.ConfigCollection;
 import me.justapie.cakedj.utils.EmbedUtils;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -59,7 +61,9 @@ public class Manager {
                 new ResetCommand(),
                 new BassboostCommand(),
                 new TFSCommand(),
-                new GetLogCommand()
+                new GetLogCommand(),
+                new SaveCommand(),
+                new PlaylistCommand()
         );
     }
 

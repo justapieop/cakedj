@@ -20,10 +20,6 @@ public class ChannelManageCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        if (guildSetting == null) {
-            EmbedUtils.sendEmbed(event, Color.RED, Constants.noConfigDefined);
-            return;
-        }
         List<String> djOnlyChannels = guildSetting.djOnlyChannels();
 
         if (djOnlyChannels.isEmpty()) {

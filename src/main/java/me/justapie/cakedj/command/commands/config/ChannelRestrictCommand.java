@@ -17,10 +17,6 @@ public class ChannelRestrictCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
         GuildModel guildSetting = GuildCollection.getGuildConfig(event.getGuild());
-        if (guildSetting == null) {
-            EmbedUtils.sendEmbed(event, Color.RED, Constants.noConfigDefined);
-            return;
-        }
         if (guildSetting.djOnlyChannels().isEmpty()) {
             EmbedUtils.sendEmbed(event, Color.RED, Constants.emptyChannelList);
             return;
