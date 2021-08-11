@@ -1,6 +1,7 @@
 package me.justapie.cakedj.command.commands.music;
 
 import me.justapie.cakedj.Constants;
+import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
 import me.justapie.cakedj.command.ICommand;
 import me.justapie.cakedj.utils.EmbedUtils;
@@ -12,7 +13,10 @@ import java.awt.*;
 public class ClearCommand implements ICommand {
     @Override
     public void exec(SlashCommandEvent event) {
-        PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.clear();
+        GuildMusicManager musicMan = PlayerManager.getInstance().getMusicManager(event.getGuild());
+
+        musicMan.audioPlayer.startTrack(null, false);
+        musicMan.scheduler.clear();
         EmbedUtils.sendEmbed(event, Color.GREEN, Constants.queueCleared);
     }
 
@@ -27,7 +31,7 @@ public class ClearCommand implements ICommand {
     }
 
     @Override
-    public boolean activeQueue() {
+    public boolean activePlayer() {
         return true;
     }
 }

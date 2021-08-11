@@ -50,7 +50,6 @@ public class TrackScheduler extends AudioEventAdapter {
     public void clear() {
         this.queue.clear();
         this.previous.clear();
-        endTrack();
     }
 
     public void previous() {
