@@ -1,3 +1,4 @@
+
 # cakedj
 
 [![Build](https://github.com/justapieop/cakedj/actions/workflows/gradle.yml/badge.svg)](https://github.com/justapieop/cakedj/actions/workflows/gradle.yml)
@@ -9,9 +10,11 @@ A Discord music bot. Crafted with JDA and LavaPlayer
 **Note:** 
 - Java 11 or newer is required
 
+- If you are using Heroku or similar services, please skip this process
+
 - If you know how to eliminate errors, you are fine to skip this note, if you don't, please double check the `build` status under the project's name. As long as the status is `Passing`, you are fine to continue
 
-The building process is simple. Clone the repository and type the command below:
+The building process is simple. Clone the repository then type the command in the terminal that corresponds to your operating system
 
 For Windows:
 
@@ -27,6 +30,21 @@ cd /path/to/the/repository
 chmod +x gradlew
 ./gradlew build
 ```
+
+## Configuring the bot
+
+Create a MongoDB database named `CakeDJ` and a collection named `config`
+
+Then create **one and just one** document with the format below
+
+```
+_id: (no need to touch this because MongoDB will auto generate one)
+token: (a string contains your bot's token)
+ownerID: (a string contains your Discord ID)
+dblToken: (a string contains your top.gg bot token) (OPTIONAL)
+ipv6Block: (an array contains ipv6 blocks) (OPTIONAL)
+```
+
 
 ## Deploying the bot
 
@@ -51,8 +69,14 @@ chmod +x gradlew
 
 ### For Linux/Windows/Mac OS users
 
-After building the bot, run the jar in `build/libs` with the name of `CakeDJ.jar`. Do not run the `cakedj-1.0.0.jar` because that's a raw jar that doesn't contain any dependencies
+After building the bot, the bot jar file will be in `build/libs` with the name of `CakeDJ.jar`. You can move it anywhere you want. In the same directory where `CakeDJ.jar` file resides, make a file named `.env` with a content by the format below:
+
+```
+DATABASE=Your MongoDB Connection String
+```
+
+Your MongoDB Connection String must point to the database that has the bot's configuration
 
 # Contributing
 
-You are free to contribute to this repository, be sure to eliminate bugs and errors before making a PR
+You are free to contribute to this repository, be sure to eliminate bugs and errors before making a pull request
