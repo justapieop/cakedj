@@ -23,7 +23,7 @@ cd /path/to/the/repository
 gradlew build
 ```
 
-For Linux/Mac OS:
+For Linux/MacOS:
 
 ```bash
 cd /path/to/the/repository
@@ -67,7 +67,7 @@ ipv6Block: (an array contains ipv6 blocks) (OPTIONAL)
 
 - This applies to all app-deploying services which have a build system like Heroku
 
-### For Linux/Windows/Mac OS users
+### For Linux/Windows/MacOS users
 
 After building the bot, the bot jar file will be in `build/libs` with the name of `CakeDJ.jar`. You can move it anywhere you want. In the same directory where `CakeDJ.jar` file resides, make a file named `.env` with a content by the format below:
 
