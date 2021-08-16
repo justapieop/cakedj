@@ -62,6 +62,8 @@ ipv6Block: (an array contains ipv6 blocks) (OPTIONAL)
 
 - If the deployment fails, manually deploy again. If it continues to fail, contact me through my Discord: `JustAPie#9511`
 
+- Go to `Resources` tab and turn on the `worker` process. Do not turn the `web` process on because Heroku will disable it after the bot runs for a while
+
 **Note:**
 - I do not recommend you use Heroku or any services like that because they do not support IP rotation to avoid being rate-limited by Youtube and other audio sources
 
