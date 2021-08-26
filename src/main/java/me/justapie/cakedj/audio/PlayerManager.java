@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
@@ -55,7 +56,10 @@ public class PlayerManager {
 
     public void loadAndPlay(SlashCommandEvent event, String trackUrl, User requester) {
         GuildMusicManager musicManager = this.getMusicManager(event.getGuild());
-        InteractionHook hook = event.deferReply().complete();
+        ReplyAction action = event.deferReply();
+        if (event.getMember().getUser().getId().equals(ConfigCollection.getConfig().ownerID()))
+            action = action.setEphemeral(true);
+        InteractionHook finalHook = action.complete();
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
@@ -63,7 +67,7 @@ public class PlayerManager {
                 musicManager.scheduler.enqueue(track);
                 String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
                         "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
-                hook.sendMessageEmbeds(
+                finalHook.sendMessageEmbeds(
                         EmbedUtils.createEmbed(Color.GREEN, desc)
                 ).queue();
             }
@@ -76,7 +80,7 @@ public class PlayerManager {
                     musicManager.scheduler.enqueue(track);
                     String desc = "Enqueued" + ' ' + "**" + track.getInfo().title + "**" + "\n" +
                             "Requested by" + ' ' + "**" + requester.getAsTag() + "**";
-                    hook.sendMessageEmbeds(
+                    finalHook.sendMessageEmbeds(
                             EmbedUtils.createEmbed(Color.GREEN, desc)
                     ).queue();
                     return;
@@ -92,21 +96,21 @@ public class PlayerManager {
                 String desc = "Enqueued **" + size + "** " + (size > 1 ? "tracks" : "track") + " from playlist **" + playlist.getName() + "**" + "\n"
                         + "Requested by **" + requester.getAsTag() + "**";
 
-                hook.sendMessageEmbeds(
+                finalHook.sendMessageEmbeds(
                         EmbedUtils.createEmbed(Color.GREEN, desc)
                 ).queue();
             }
 
             @Override
             public void noMatches() {
-                hook.sendMessageEmbeds(
+                finalHook.sendMessageEmbeds(
                         EmbedUtils.createEmbed(Color.RED, Constants.noMatches)
                 ).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                hook.sendMessageEmbeds(
+                finalHook.sendMessageEmbeds(
                         EmbedUtils.createEmbed(Color.RED, Constants.trackError)
                 ).queue();
                 LoggerFactory.getLogger(PlayerManager.class).error(

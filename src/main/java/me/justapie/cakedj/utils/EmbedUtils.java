@@ -14,24 +14,30 @@ public class EmbedUtils {
         MessageEmbed embed = new EmbedBuilder().setColor(color).setDescription(desc).build();
         ReplyAction action = event.deferReply();
         if (event.getMember().getUser().getId().equals(ConfigCollection.getConfig().ownerID()))
-            action.setEphemeral(true);
+            action = action.setEphemeral(true);
         action.queue((resp) -> resp.sendMessageEmbeds(embed).queue());
     }
 
     public static void sendEmbed(SlashCommandEvent event, Color color, String desc, boolean ephemeral) {
         MessageEmbed embed = new EmbedBuilder().setColor(color).setDescription(desc).build();
-        event.deferReply().setEphemeral(ephemeral).queue((resp) -> resp.sendMessageEmbeds(embed).queue());
+        ReplyAction action = event.deferReply();
+        if (event.getMember().getUser().getId().equals(ConfigCollection.getConfig().ownerID()))
+            action = action.setEphemeral(true);
+        action.queue((resp) -> resp.sendMessageEmbeds(embed).queue());
     }
 
     public static void sendEmbed(SlashCommandEvent event, MessageEmbed... embed) {
         ReplyAction action = event.deferReply();
         if (event.getMember().getUser().getId().equals(ConfigCollection.getConfig().ownerID()))
-            action.setEphemeral(true);
+            action = action.setEphemeral(true);
         action.queue((resp) -> resp.sendMessageEmbeds(Arrays.asList(embed)).queue());
     }
 
     public static void sendEmbed(SlashCommandEvent event, boolean ephemeral, MessageEmbed... embed) {
-        event.deferReply().setEphemeral(ephemeral).queue((resp) -> resp.sendMessageEmbeds(Arrays.asList(embed)).queue());
+        ReplyAction action = event.deferReply().setEphemeral(ephemeral);
+        if (event.getMember().getUser().getId().equals(ConfigCollection.getConfig().ownerID()))
+            action = action.setEphemeral(true);
+        action.queue((resp) -> resp.sendMessageEmbeds(Arrays.asList(embed)).queue());
     }
 
     public static MessageEmbed createEmbed(Color color, String desc) {
