@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+group 'me.justapie'
+version '1.0.0'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+sourceCompatibility = 11
+targetCompatibility = 11
+mainClassName = 'me.justapie.cakedj.CakeDJ'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    maven {
+        name 'duncte123-jfrog'
+        url 'https://duncte123.jfrog.io/artifactory/maven'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    implementation 'ch.qos.logback:logback-classic:1.2.8'
+    implementation 'ch.qos.logback:logback-core:1.2.8'
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.2'
+    implementation 'org.mongodb:mongodb-driver-sync:4.4.0'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'com.sedmelluq:lavaplayer:1.3.78'
+    implementation 'se.michaelthelin.spotify:spotify-web-api-java:7.0.0'
+    implementation 'com.github.connyscode.ctils:jtrack:2.0.1'
+}
+
+shadowJar {
+    archiveBaseName.set('CakeDJ')
+}
