@@ -1,17 +1,21 @@
 package me.justapie.cakedj.database.model;
 
+import me.justapie.cakedj.database.DatabaseUtils;
+import org.bson.Document;
+
 import java.util.List;
 
 public final class GuildSetting {
-    private String guildId;
+    private String guildID;
     private String guildName;
     private boolean is247 = false;
     private boolean channelRestrict = false;
+    private boolean djRoleMode = false;
     private List<String> djOnlyChannels = List.of();
     private List<String> djRoles = List.of();
 
-    public String getGuildId() {
-        return guildId;
+    public String getGuildID() {
+        return guildID;
     }
 
     public String getGuildName() {
@@ -26,6 +30,10 @@ public final class GuildSetting {
         return channelRestrict;
     }
 
+    public boolean djRoleMode() {
+        return djRoleMode;
+    }
+
     public List<String> getDjOnlyChannels() {
         return djOnlyChannels;
     }
@@ -34,8 +42,8 @@ public final class GuildSetting {
         return djRoles;
     }
 
-    public GuildSetting setGuildId(String guildId) {
-        this.guildId = guildId;
+    public GuildSetting setGuildId(String guildID) {
+        this.guildID = guildID;
         return this;
     }
 
@@ -46,6 +54,11 @@ public final class GuildSetting {
 
     public GuildSetting setIs247(boolean is247) {
         this.is247 = is247;
+        return this;
+    }
+
+    public GuildSetting setDjRoleMode(boolean djRoleMode) {
+        this.djRoleMode = djRoleMode;
         return this;
     }
 
@@ -62,5 +75,17 @@ public final class GuildSetting {
     public GuildSetting setDjRoles(List<String> djRoles) {
         this.djRoles = djRoles;
         return this;
+    }
+
+    public void update() {
+        Document document = new Document()
+                .append("guildID", this.guildID)
+                .append("guildName", this.guildName)
+                .append("is247", this.is247)
+                .append("channelRestrict", this.channelRestrict)
+                .append("djRoleMode", this.djRoleMode)
+                .append("djOnlyChannels", this.djOnlyChannels)
+                .append("djRoles", this.djRoles);
+        DatabaseUtils.updateData(this.guildID, document);
     }
 }
