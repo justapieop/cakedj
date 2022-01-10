@@ -4,20 +4,21 @@ import com.github.connyscode.ctils.jTrack.Song;
 import com.github.connyscode.ctils.jTrack.backend.SongNotFoundException;
 import com.github.connyscode.ctils.jTrack.backend.types.SongSearchResult;
 import com.github.connyscode.ctils.jTrack.jTrackClient;
-import com.google.common.collect.Lists;
 import me.justapie.cakedj.CakeDJ;
 import me.justapie.cakedj.Context;
 import me.justapie.cakedj.structure.Command;
 import me.justapie.cakedj.utils.DiscordMarkdown;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -74,23 +75,24 @@ public final class LyricsCommand extends Command {
             lyrics.append(ch);
         String finalLyrics = lyrics.toString();
 
-        List<MessageEmbed> embeds = new ArrayList<>();
-        List<List<String>> splits = Lists.partition(Arrays.asList(finalLyrics.split("\\n\\n")), 5);
+        String lyricsFileName = "lyrics_" + new Random().ints(97, 123)
+                .limit(10)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString() + ".txt";
 
-        embeds.add(
-                new EmbedBuilder()
-                        .setTitle(song.songFullName())
-                        .setDescription(String.join(" ", splits.get(0)))
-                        .build()
-        );
+        File lyricsFile = new File(lyricsFileName);
 
-        for (int i = 1; i < splits.size(); i++) {
-            embeds.add(
-                    new EmbedBuilder()
-                            .setDescription(String.join(" ", splits.get(i)))
-                            .build()
-            );
+        try {
+            lyricsFile.createNewFile();
+            FileWriter writer = new FileWriter(lyricsFile, StandardCharsets.UTF_8);
+            writer.write(song.songFullName() + "\n");
+            writer.write(finalLyrics);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        context.sendMessageEmbeds(embeds).queue();
+        context.sendFile(lyricsFile, "Lyrics.txt").queue((message) -> {
+            lyricsFile.delete();
+        });
     }
 }
