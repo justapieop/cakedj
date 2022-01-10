@@ -34,7 +34,14 @@ public final class Context implements InteractionHook {
         super();
         this.hook = hook;
         this.musicManager = PlayerManager.getInstance().getMusicManager(this.hook.getInteraction().getGuild());
-        this.guildSetting = DatabaseUtils.getGuildSetting(this.hook.getInteraction().getGuild());
+        Document doc = DatabaseUtils.getDocument("guilds", "guildID", this.hook.getInteraction().getGuild().getId());
+        this.guildSetting = new GuildSetting()
+                .setGuildId(doc.getString("guildID"))
+                .setGuildName(doc.getString("guildName"))
+                .setIs247(doc.getBoolean("is247"))
+                .setChannelRestrict(doc.getBoolean("channelRestrict"))
+                .setDjOnlyChannels(doc.getList("djOnlyChannel", String.class, List.of()))
+                .setDjRoles(doc.getList("djRoles", String.class, List.of()));
         this.event = event;
     }
 
