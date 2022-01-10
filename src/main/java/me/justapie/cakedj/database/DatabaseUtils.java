@@ -6,33 +6,34 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import me.justapie.cakedj.database.model.GuildSetting;
 import net.dv8tion.jda.api.entities.Guild;
+import org.bson.Document;
 
 public final class DatabaseUtils {
     private static final MongoClient CLIENT = MongoDBHandler.getClient();
     private static final MongoDatabase DATABASE = CLIENT.getDatabase("CakeDJ");
 
-    public static GuildSetting getGuildSetting(Guild guild) {
-        MongoCollection<GuildSetting> collection = DATABASE.getCollection("guilds", GuildSetting.class);
+    public static Document getDocument(Guild guild) {
+        MongoCollection<Document> collection = DATABASE.getCollection("guilds");
         return collection.find(Filters.eq("guildId", guild.getId())).first();
     }
 
-    public static void updateData(Guild guild, GuildSetting setting) {
-        MongoCollection<GuildSetting> collection = DATABASE.getCollection("guilds", GuildSetting.class);
-        deleteSetting(guild);
+    public static void updateData(String guildId, Document setting) {
+        MongoCollection<Document> collection = DATABASE.getCollection("guilds");
+        deleteSetting(guildId);
         collection.insertOne(setting);
     }
 
-    public static void createSetting(Guild guild) {
-        MongoCollection<GuildSetting> collection = DATABASE.getCollection("guilds", GuildSetting.class);
+    public static void createSetting(String guildId, String guildName) {
+        MongoCollection<Document> collection = DATABASE.getCollection("guilds");
         collection.insertOne(
-                new GuildSetting()
-                        .setGuildId(guild.getId())
-                        .setGuildName(guild.getName())
+                new Document()
+                        .append("guildId", guildId)
+                        .append("guildName", guildName)
         );
     }
 
-    public static void deleteSetting(Guild guild) {
+    public static void deleteSetting(String guildId) {
         MongoCollection<GuildSetting> collection = DATABASE.getCollection("guilds", GuildSetting.class);
-        collection.findOneAndDelete(Filters.eq("guildId", guild.getId()));
+        collection.findOneAndDelete(Filters.eq("guildId", guildId));
     }
 }
