@@ -21,7 +21,7 @@ repositories {
         url 'https://m2.dv8tion.net/releases'
     }
     maven {
-        name 'duncte123-jfrog'
+        name 'duncte123'
         url 'https://duncte123.jfrog.io/artifactory/maven'
     }
     maven {
