@@ -27,14 +27,14 @@ public final class AudioSearchResultHandler implements AudioLoadResultHandler {
     @Override
     public void trackLoaded(AudioTrack track) {
         track.setUserData(this.requester.getAsTag());
+
         this.manager.scheduler.enqueue(track);
-        this.hook.sendMessageEmbeds(
-                new EmbedBuilder()
-                        .setColor(Color.CYAN)
-                        .setTitle(DiscordMarkdown.bold("Enqueued track"))
-                        .setDescription(track.getInfo().title)
-                        .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                        .build()
+        this.hook.sendMessageEmbeds(new EmbedBuilder()
+                .setColor(Color.CYAN)
+                .setTitle(DiscordMarkdown.bold("Enqueued track"))
+                .setDescription(track.getInfo().title)
+                .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
+                .build()
         ).queue();
     }
 
@@ -42,52 +42,50 @@ public final class AudioSearchResultHandler implements AudioLoadResultHandler {
     public void playlistLoaded(AudioPlaylist playlist) {
         if (trackUrl.startsWith("scsearch:")) {
             AudioTrack track = playlist.getTracks().get(0);
+
             this.manager.scheduler.enqueue(track);
-            this.hook.sendMessageEmbeds(
-                    new EmbedBuilder()
-                            .setColor(Color.GREEN)
-                            .setTitle(DiscordMarkdown.bold("Enqueued track"))
-                            .setDescription(track.getInfo().title)
-                            .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                            .build()
+            this.hook.sendMessageEmbeds(new EmbedBuilder()
+                    .setColor(Color.GREEN)
+                    .setTitle(DiscordMarkdown.bold("Enqueued track"))
+                    .setDescription(track.getInfo().title)
+                    .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
+                    .build()
             ).queue();
             return;
         }
+
         for (AudioTrack track : playlist.getTracks()) {
             track.setUserData(this.requester.getAsTag());
             this.manager.scheduler.enqueue(track);
         }
 
-        this.hook.sendMessageEmbeds(
-                new EmbedBuilder()
-                        .setColor(Color.CYAN)
-                        .setTitle(DiscordMarkdown.bold("Playlist enqueued"))
-                        .setDescription(playlist.getName())
-                        .setFooter("Playlist size: " + playlist.getTracks().size())
-                        .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                        .build()
+        this.hook.sendMessageEmbeds(new EmbedBuilder()
+                .setColor(Color.CYAN)
+                .setTitle(DiscordMarkdown.bold("Playlist enqueued"))
+                .setDescription(playlist.getName())
+                .setFooter("Playlist size: " + playlist.getTracks().size())
+                .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
+                .build()
         ).queue();
     }
 
     @Override
     public void noMatches() {
-        this.hook.sendMessageEmbeds(
-                new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle(DiscordMarkdown.bold("Load failed"))
-                        .setDescription("The requested track couldn't be loaded")
-                        .build()
+        this.hook.sendMessageEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle(DiscordMarkdown.bold("Load failed"))
+                .setDescription("The requested track couldn't be loaded")
+                .build()
         ).queue();
     }
 
     @Override
     public void loadFailed(FriendlyException exception) {
-        this.hook.sendMessageEmbeds(
-                new EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setTitle(DiscordMarkdown.bold("Not found"))
-                        .setDescription("The requested track couldn't be found")
-                        .build()
+        this.hook.sendMessageEmbeds(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle(DiscordMarkdown.bold("Not found"))
+                .setDescription("The requested track couldn't be found")
+                .build()
         ).queue();
     }
 }
