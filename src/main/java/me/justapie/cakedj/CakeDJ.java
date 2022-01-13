@@ -19,7 +19,7 @@ public final class CakeDJ {
             GatewayIntent.GUILD_MEMBERS,
             GatewayIntent.GUILD_VOICE_STATES
     );
-    private static final List<CacheFlag> DISABLED_FLAG = List.of(
+    private static final List<CacheFlag> DISABLED_FLAGS = List.of(
             CacheFlag.EMOTE,
             CacheFlag.ACTIVITY,
             CacheFlag.CLIENT_STATUS,
@@ -76,7 +76,7 @@ public final class CakeDJ {
         DefaultShardManagerBuilder
                 .create(REQUIRED_INTENTS)
                 .setToken(CakeDJ.getConfig().getToken())
-                .disableCache(DISABLED_FLAG)
+                .disableCache(DISABLED_FLAGS)
                 .addEventListeners(new Listener())
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .build();
