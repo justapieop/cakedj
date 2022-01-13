@@ -5,7 +5,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class QueueData {
+public final class QueueData {
     private final LinkedList<AudioTrack> queue;
     private final LinkedList<AudioTrack> previousQueue;
     private boolean isInLoop = false;
