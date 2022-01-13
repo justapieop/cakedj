@@ -10,8 +10,9 @@ public abstract class Command {
     public CommandData data;
     public List<Permission> userPerms = List.of();
     public List<Permission> botPerms = List.of();
-    public boolean voiceCon = false;
     public boolean sameVoice = false;
+    public boolean ownerPerm = false;
+    public boolean djPerm = false;
 
     public abstract void execute(Context context);
 }
