@@ -2,8 +2,8 @@ package me.justapie.cakedj;
 
 import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
-import me.justapie.cakedj.database.DatabaseUtils;
 import me.justapie.cakedj.database.MongoDBHandler;
+import me.justapie.cakedj.utils.DatabaseUtils;
 import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.StageChannel;

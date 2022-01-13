@@ -1,6 +1,7 @@
 package me.justapie.cakedj;
 
 import com.google.common.base.Splitter;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import me.justapie.cakedj.structure.BotConfig;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -33,15 +34,6 @@ public final class CakeDJ {
         }
     }
 
-    public void start() throws LoginException {
-        DefaultShardManagerBuilder
-                .create(REQUIRED_INTENTS)
-                .setToken(CakeDJ.getConfig().getToken())
-                .disableCache(DISABLED_FLAG)
-                .addEventListeners(new Listener())
-                .build();
-    }
-
     public static BotConfig getConfig() {
         return new BotConfig() {
             @Override
@@ -67,7 +59,27 @@ public final class CakeDJ {
             public String geniusKey() {
                 return PROPERTIES.getProperty("geniusKey");
             }
+
+            @Override
+            public String spotifyClientId() {
+                return PROPERTIES.getProperty("spotifyClientId");
+            }
+
+            @Override
+            public String spotifyClientSecret() {
+                return PROPERTIES.getProperty("spotifyClientSecret");
+            }
         };
+    }
+
+    public void start() throws LoginException {
+        DefaultShardManagerBuilder
+                .create(REQUIRED_INTENTS)
+                .setToken(CakeDJ.getConfig().getToken())
+                .disableCache(DISABLED_FLAG)
+                .addEventListeners(new Listener())
+                .setAudioSendFactory(new NativeAudioSendFactory())
+                .build();
     }
 
     public static void main(String[] args) throws LoginException, IOException {

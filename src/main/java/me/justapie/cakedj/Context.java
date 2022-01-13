@@ -2,8 +2,8 @@ package me.justapie.cakedj;
 
 import me.justapie.cakedj.audio.GuildMusicManager;
 import me.justapie.cakedj.audio.PlayerManager;
-import me.justapie.cakedj.database.DatabaseUtils;
 import me.justapie.cakedj.database.model.GuildSetting;
+import me.justapie.cakedj.utils.DatabaseUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;

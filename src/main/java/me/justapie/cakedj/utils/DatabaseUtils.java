@@ -1,10 +1,13 @@
-package me.justapie.cakedj.database;
+package me.justapie.cakedj.utils;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import me.justapie.cakedj.database.MongoDBHandler;
 import org.bson.Document;
+
+import java.util.Arrays;
 
 public final class DatabaseUtils {
     private static final MongoClient CLIENT = MongoDBHandler.getClient();
@@ -21,9 +24,9 @@ public final class DatabaseUtils {
         collection.insertOne(setting);
     }
 
-    public static void createDocument(String collName, Document doc) {
+    public static void createDocument(String collName, Document... doc) {
         MongoCollection<Document> collection = DATABASE.getCollection(collName);
-        collection.insertOne(doc);
+        collection.insertMany(Arrays.asList(doc));
     }
 
     public static void deleteDocument(String collName, String key, Object val) {

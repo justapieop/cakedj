@@ -1,6 +1,6 @@
 package me.justapie.cakedj.database.model;
 
-import me.justapie.cakedj.database.DatabaseUtils;
+import me.justapie.cakedj.utils.DatabaseUtils;
 import org.bson.Document;
 
 import java.util.List;
@@ -86,6 +86,6 @@ public final class GuildSetting {
                 .append("djRoleMode", this.djRoleMode)
                 .append("djOnlyChannels", this.djOnlyChannels)
                 .append("djRoles", this.djRoles);
-        DatabaseUtils.updateData(this.guildID, document);
+        DatabaseUtils.updateDocument("guilds", "guildID", this.guildID, document);
     }
 }

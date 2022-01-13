@@ -6,12 +6,8 @@ import me.justapie.cakedj.structure.Command;
 import me.justapie.cakedj.utils.DiscordMarkdown;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.AudioChannel;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.StageChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
@@ -47,20 +43,20 @@ public final class CommandManager {
         event.deferReply().queue((hook) -> {
             Context context = new Context(hook, event);
             Command cmd = this.getCommand(event.getName());
-            if (cmd != null && this.checkRequirements(hook, cmd)) cmd.execute(context);
+            if (cmd != null && this.checkRequirements(context, cmd)) cmd.execute(context);
         });
     }
 
-    private boolean checkRequirements(InteractionHook hook, Command command) {
-        Member commander = hook.getInteraction().getMember();
+    private boolean checkRequirements(Context context, Command command) {
+        Member commander = context.getInteraction().getMember();
         assert commander != null;
         if (!command.userPerms.isEmpty()) {
             List<String> missing = command.userPerms.stream()
-                    .filter((c) -> !hook.getInteraction().getMember().hasPermission(c))
+                    .filter((c) -> !context.getInteraction().getMember().hasPermission(c))
                     .map(Permission::getName)
                     .collect(Collectors.toList());
             if (!missing.isEmpty()) {
-                hook.sendMessageEmbeds(
+                context.sendMessageEmbeds(
                         new EmbedBuilder()
                                 .setColor(Color.RED)
                                 .setTitle("Insufficient permissions")
@@ -74,11 +70,11 @@ public final class CommandManager {
 
         if (!command.botPerms.isEmpty()) {
             List<String> missing = command.userPerms.stream()
-                    .filter((c) -> !hook.getInteraction().getGuild().getSelfMember().hasPermission(c))
+                    .filter((c) -> !context.getInteraction().getGuild().getSelfMember().hasPermission(c))
                     .map(Permission::getName)
                     .collect(Collectors.toList());
             if (!missing.isEmpty()) {
-                hook.sendMessageEmbeds(
+                context.sendMessageEmbeds(
                         new EmbedBuilder()
                                 .setColor(Color.RED)
                                 .setTitle("Insufficient permissions")
@@ -91,8 +87,8 @@ public final class CommandManager {
         }
 
         if (command.sameVoice) {
-            AudioManager audioManager = hook.getInteraction().getGuild().getAudioManager();
-            GuildVoiceState state = hook.getInteraction().getMember().getVoiceState();
+            AudioManager audioManager = context.getInteraction().getGuild().getAudioManager();
+            GuildVoiceState state = context.getInteraction().getMember().getVoiceState();
             if (!audioManager.isConnected()) {
                 if (state.inAudioChannel()) {
                     AudioChannel channel = state.getChannel();
@@ -101,7 +97,7 @@ public final class CommandManager {
                         audioManager.openAudioConnection(stage);
                     } else audioManager.openAudioConnection(channel);
                 } else {
-                    hook.sendMessageEmbeds(
+                    context.sendMessageEmbeds(
                             new EmbedBuilder()
                                     .setColor(Color.RED)
                                     .setTitle("No voice connection detected")
@@ -113,7 +109,7 @@ public final class CommandManager {
             } else {
                 if (state.inAudioChannel()) {
                     if (!state.getChannel().equals(audioManager.getConnectedChannel())) {
-                        hook.sendMessageEmbeds(
+                        context.sendMessageEmbeds(
                                 new EmbedBuilder()
                                         .setColor(Color.RED)
                                         .setTitle("Same voice required")
@@ -124,7 +120,7 @@ public final class CommandManager {
                         return false;
                     }
                 } else {
-                    hook.sendMessageEmbeds(
+                    context.sendMessageEmbeds(
                             new EmbedBuilder()
                                     .setColor(Color.RED)
                                     .setTitle("No voice connection detected")
@@ -135,6 +131,39 @@ public final class CommandManager {
                 }
             }
         }
+
+        if (command.ownerPerm) {
+            if (!CakeDJ.getConfig().getOwnerIds().contains(context.getInteraction().getMember().getId())) {
+                context.sendMessageEmbeds(
+                        new EmbedBuilder()
+                                .setColor(Color.RED)
+                                .setTitle("Insufficient permissions")
+                                .setDescription("This action requires you to be the owner of the bot")
+                                .build()
+                ).queue();
+                return false;
+            }
+        }
+
+        if (command.djPerm) {
+            List<String> required = context.getGuildSetting().getDjRoles();
+            List<String> missing = context.getInteraction().getMember().getRoles().stream()
+                    .filter((c) -> !required.contains(c))
+                    .map(Role::getName)
+                    .collect(Collectors.toList());
+            if (!missing.isEmpty() && !context.getInteraction().getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                context.sendMessageEmbeds(
+                        new EmbedBuilder()
+                                .setColor(Color.RED)
+                                .setTitle("DJ role missing")
+                                .setDescription("You must have a dj role to continue, ask the admin for this")
+                                .addField("Missing role(s)", DiscordMarkdown.singleQuote(String.join(", ", missing)), true)
+                                .build()
+                ).queue();
+                return false;
+            }
+        }
+
         return true;
     }
 }
