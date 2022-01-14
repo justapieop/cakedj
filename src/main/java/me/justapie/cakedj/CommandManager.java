@@ -61,7 +61,7 @@ public final class CommandManager {
                                 .setColor(Color.RED)
                                 .setTitle("Insufficient permissions")
                                 .setDescription("You don't have enough permissions to do this")
-                                .addField("Missing permissions", String.join(", ", missing), true)
+                                .addField("Missing permissions", String.join(", ", missing), false)
                                 .build()
                 ).queue();
                 return false;
@@ -79,7 +79,7 @@ public final class CommandManager {
                                 .setColor(Color.RED)
                                 .setTitle("Insufficient permissions")
                                 .setDescription("The bot doesn't have enough permissions to do this")
-                                .addField("Missing permissions", String.join(", ", missing), true)
+                                .addField("Missing permissions", String.join(", ", missing), false)
                                 .build()
                 ).queue();
                 return false;
@@ -114,7 +114,7 @@ public final class CommandManager {
                                         .setColor(Color.RED)
                                         .setTitle("Same voice required")
                                         .setDescription("You must be connected to the same voice/stage channel with the bot to continue")
-                                        .addField("Current voice/stage channel", DiscordMarkdown.singleQuote(audioManager.getConnectedChannel().getName()), true)
+                                        .addField("Current voice/stage channel", DiscordMarkdown.singleQuote(audioManager.getConnectedChannel().getName()), false)
                                         .build()
                         ).queue();
                         return false;
@@ -157,7 +157,7 @@ public final class CommandManager {
                                 .setColor(Color.RED)
                                 .setTitle("DJ role missing")
                                 .setDescription("You must have a dj role to continue, ask the admin for this")
-                                .addField("Missing role(s)", DiscordMarkdown.singleQuote(String.join(", ", missing)), true)
+                                .addField("Missing role(s)", DiscordMarkdown.singleQuote(String.join(", ", missing)), false)
                                 .build()
                 ).queue();
                 return false;

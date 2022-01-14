@@ -47,7 +47,7 @@ public final class PlayCommand extends Command {
         } catch (URISyntaxException e) {
             songName = "scsearch:" + songName;
         }
-        PlayerManager.getInstance().loadAndPlay(context, context.getInteraction().getUser(), songName);
+        PlayerManager.getInstance().loadAndPlay(context, songName);
         if (context.getOptions().size() == 2 && context.getOptions().get(1).getAsBoolean()) {
             GuildMusicManager musicMan = context.getMusicManager();
             AudioTrack playing = musicMan.audioPlayer.getPlayingTrack();

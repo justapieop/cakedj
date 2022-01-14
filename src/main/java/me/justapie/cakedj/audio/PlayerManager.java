@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 
 import java.util.HashMap;
@@ -30,12 +29,12 @@ public final class PlayerManager {
         });
     }
 
-    public void loadAndPlay(InteractionHook hook, User requester, String url) {
+    public void loadAndPlay(InteractionHook hook, String url) {
         GuildMusicManager guildMusicManager = this.getMusicManager(hook.getInteraction().getGuild());
         this.audioPlayerManager.loadItemOrdered(
                 guildMusicManager,
                 url,
-                new AudioSearchResultHandler(guildMusicManager, hook, requester, url)
+                new AudioSearchResultHandler(guildMusicManager, hook, url)
         );
     }
 
