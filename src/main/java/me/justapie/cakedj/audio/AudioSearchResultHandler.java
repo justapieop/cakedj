@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.justapie.cakedj.utils.DiscordMarkdown;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 
@@ -16,25 +17,28 @@ public final class AudioSearchResultHandler implements AudioLoadResultHandler {
     private final User requester;
     private final InteractionHook hook;
     private final String trackUrl;
+    private final Guild guild;
 
-    public AudioSearchResultHandler(GuildMusicManager manager, InteractionHook hook, User requester, String trackUrl) {
+    public AudioSearchResultHandler(GuildMusicManager manager, InteractionHook hook, String trackUrl) {
         this.manager = manager;
-        this.requester = requester;
         this.hook = hook;
         this.trackUrl = trackUrl;
+        this.requester = this.hook.getInteraction().getUser();
+        this.guild = this.hook.getInteraction().getGuild();
     }
 
     @Override
     public void trackLoaded(AudioTrack track) {
         track.setUserData(this.requester.getAsTag());
-
         this.manager.scheduler.enqueue(track);
-        this.hook.sendMessageEmbeds(new EmbedBuilder()
-                .setColor(Color.CYAN)
-                .setTitle(DiscordMarkdown.bold("Enqueued track"))
-                .setDescription(track.getInfo().title)
-                .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                .build()
+        this.hook.sendMessageEmbeds(
+                new EmbedBuilder()
+                        .setColor(Color.CYAN)
+                        .setTitle("Enqueued track")
+                        .setDescription(track.getInfo().title)
+                        .addField("Requested by", this.requester.getAsTag(), false)
+                        .setAuthor(this.guild.getName(), null, this.guild.getIconUrl())
+                        .build()
         ).queue();
     }
 
@@ -42,14 +46,16 @@ public final class AudioSearchResultHandler implements AudioLoadResultHandler {
     public void playlistLoaded(AudioPlaylist playlist) {
         if (trackUrl.startsWith("scsearch:")) {
             AudioTrack track = playlist.getTracks().get(0);
-
+            track.setUserData(this.requester.getAsTag());
             this.manager.scheduler.enqueue(track);
-            this.hook.sendMessageEmbeds(new EmbedBuilder()
-                    .setColor(Color.GREEN)
-                    .setTitle(DiscordMarkdown.bold("Enqueued track"))
-                    .setDescription(track.getInfo().title)
-                    .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                    .build()
+            this.hook.sendMessageEmbeds(
+                    new EmbedBuilder()
+                            .setColor(Color.GREEN)
+                            .setTitle("Enqueued track")
+                            .setDescription(track.getInfo().title)
+                            .addField("Requested by", this.requester.getAsTag(), false)
+                            .setAuthor(this.guild.getName(), null, this.guild.getIconUrl())
+                            .build()
             ).queue();
             return;
         }
@@ -59,13 +65,15 @@ public final class AudioSearchResultHandler implements AudioLoadResultHandler {
             this.manager.scheduler.enqueue(track);
         }
 
-        this.hook.sendMessageEmbeds(new EmbedBuilder()
-                .setColor(Color.CYAN)
-                .setTitle(DiscordMarkdown.bold("Playlist enqueued"))
-                .setDescription(playlist.getName())
-                .setFooter("Playlist size: " + playlist.getTracks().size())
-                .setAuthor(this.requester.getAsTag(), null, this.requester.getAvatarUrl())
-                .build()
+        this.hook.sendMessageEmbeds(
+                new EmbedBuilder()
+                        .setColor(Color.CYAN)
+                        .setTitle("Playlist enqueued")
+                        .setDescription(playlist.getName())
+                        .addField("Requested by", this.requester.getAsTag(), false)
+                        .setFooter("Playlist size: " + playlist.getTracks().size())
+                        .setAuthor(this.guild.getName(), null, this.guild.getIconUrl())
+                        .build()
         ).queue();
     }
 
