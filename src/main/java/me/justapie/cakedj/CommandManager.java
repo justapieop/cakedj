@@ -7,7 +7,7 @@ import me.justapie.cakedj.utils.DiscordMarkdown;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.managers.AudioManager;
 
@@ -39,7 +39,7 @@ public final class CommandManager {
         return null;
     }
 
-    public void process(SlashCommandEvent event) {
+    public void process(SlashCommandInteraction event) {
         event.deferReply().queue((hook) -> {
             Context context = new Context(hook, event);
             Command cmd = this.getCommand(event.getName());
@@ -148,7 +148,7 @@ public final class CommandManager {
         if (command.djPerm) {
             List<String> required = context.getGuildSetting().getDjRoles();
             List<String> missing = context.getInteraction().getMember().getRoles().stream()
-                    .filter((c) -> !required.contains(c))
+                    .filter((c) -> !required.contains(c.getId()))
                     .map(Role::getName)
                     .collect(Collectors.toList());
             if (!missing.isEmpty() && !context.getInteraction().getMember().hasPermission(Permission.MANAGE_SERVER)) {
@@ -163,7 +163,6 @@ public final class CommandManager {
                 return false;
             }
         }
-
         return true;
     }
 }

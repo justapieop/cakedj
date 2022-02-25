@@ -7,11 +7,11 @@ import me.justapie.cakedj.utils.DatabaseUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.Interaction;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.components.ComponentLayout;
+import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageAction;
 import net.dv8tion.jda.api.requests.restaction.WebhookMessageUpdateAction;
@@ -19,18 +19,20 @@ import net.dv8tion.jda.api.utils.AttachmentOption;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public final class Context implements InteractionHook {
     private final InteractionHook hook;
     private final GuildMusicManager musicManager;
     private final GuildSetting guildSetting;
-    private final SlashCommandEvent event;
+    private final SlashCommandInteraction event;
 
-    public Context(InteractionHook hook, SlashCommandEvent event) {
+    public Context(InteractionHook hook, SlashCommandInteraction event) {
         super();
         this.hook = hook;
         this.musicManager = PlayerManager.getInstance().getMusicManager(this.hook.getInteraction().getGuild());
@@ -45,7 +47,13 @@ public final class Context implements InteractionHook {
         this.event = event;
     }
 
-    public List<OptionMapping> getOptions() { return this.event.getOptions(); }
+    public OptionMapping getOption(String name) {
+        return this.event.getOption(name);
+    }
+
+    public <T> T getOption(String name, @Nullable T fallback, Function<? super OptionMapping, ? extends T> resolver) {
+        return this.event.getOption(name, fallback, resolver);
+    }
 
     public GuildMusicManager getMusicManager() {
         return this.musicManager;
@@ -69,15 +77,10 @@ public final class Context implements InteractionHook {
         return this.hook.editOriginal(content);
     }
 
-    @NotNull
-    @Override
-    public WebhookMessageUpdateAction<Message> editOriginalComponents(@NotNull Collection<? extends ComponentLayout> components) {
-        return this.hook.editOriginalComponents(components);
-    }
 
     @NotNull
     @Override
-    public WebhookMessageUpdateAction<Message> editOriginalComponents(@NotNull ComponentLayout @NotNull ... components) {
+    public WebhookMessageUpdateAction<Message> editOriginalComponents(@NotNull LayoutComponent... components) {
         return this.hook.editOriginalComponents(components);
     }
 
@@ -201,11 +204,6 @@ public final class Context implements InteractionHook {
         return this.hook.editMessageEmbedsById(messageId, embeds);
     }
 
-    @NotNull
-    @Override
-    public WebhookMessageUpdateAction<Message> editMessageComponentsById(@NotNull String messageId, @NotNull Collection<? extends ComponentLayout> components) {
-        return this.hook.editMessageComponentsById(messageId, components);
-    }
 
     @NotNull
     @Override
@@ -293,20 +291,21 @@ public final class Context implements InteractionHook {
 
     @NotNull
     @Override
-    public WebhookMessageUpdateAction<Message> editMessageComponentsById(long messageId, @NotNull Collection<? extends ComponentLayout> components) {
+    public WebhookMessageUpdateAction<Message> editMessageComponentsById(@NotNull String messageId, @NotNull Collection<? extends LayoutComponent> components) {
         return this.hook.editMessageComponentsById(messageId, components);
+    }
+
+
+    @NotNull
+    @Override
+    public WebhookMessageUpdateAction<Message> editMessageComponentsById(@NotNull String messageId, @NotNull LayoutComponent... components) {
+        return InteractionHook.super.editMessageComponentsById(messageId, components);
     }
 
     @NotNull
     @Override
-    public WebhookMessageUpdateAction<Message> editMessageComponentsById(@NotNull String messageId, ComponentLayout @NotNull ... components) {
-        return this.hook.editMessageComponentsById(messageId, components);
-    }
-
-    @NotNull
-    @Override
-    public WebhookMessageUpdateAction<Message> editMessageComponentsById(long messageId, ComponentLayout @NotNull ... components) {
-        return this.hook.editMessageComponentsById(messageId, components);
+    public WebhookMessageUpdateAction<Message> editMessageComponentsById(long messageId, @NotNull LayoutComponent... components) {
+        return InteractionHook.super.editMessageComponentsById(messageId, components);
     }
 
     @NotNull

@@ -10,7 +10,7 @@ import me.justapie.cakedj.structure.Command;
 import me.justapie.cakedj.utils.DiscordMarkdown;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.awt.*;
 import java.io.File;
@@ -28,13 +28,13 @@ public final class LyricsCommand extends Command {
     private static final Pattern REGEX = Pattern.compile("\\[(.*?)\\]", Pattern.CASE_INSENSITIVE);
 
     public LyricsCommand() {
-        this.data = new CommandData("lyrics", "Get lyrics for a song")
+        this.data = Commands.slash("lyrics", "Get lyrics for a song")
                 .addOption(OptionType.STRING, "name", "name of the song", true);
     }
 
     @Override
     public void execute(Context context) {
-        String query = context.getOptions().get(0).getAsString();
+        String query = context.getOption("name").getAsString();
         List<SongSearchResult> resultList = CLIENT.performSongSearch(query);
         if (resultList.isEmpty()) {
             context.sendMessageEmbeds(
